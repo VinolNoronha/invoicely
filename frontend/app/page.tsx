@@ -30,14 +30,14 @@ export default function Home() {
             Invoicely
           </h1>
         </div>
-        <Link href="/signup">
+        <Link href="auth/signup">
           <button className=" text-black-900 px-4 py-1 rounded-md font-extrabold">
             Sign up
           </button>
         </Link>
-        <Link href="/login">
+        <Link href="auth/signin">
           <button className="bg-black text-white px-4 py-1 rounded-md hover:bg-gray-800 transition">
-            Login
+            Log in
           </button>
         </Link>
       </header>
@@ -57,7 +57,7 @@ export default function Home() {
               </h4>
             </div>
             <div className="w-1/2">
-              <Link href="/login">
+              <Link href="auth/signin">
                 <button className="bg-black text-white px-7 py-3 rounded-md hover:bg-gray-800 transition flex">
                   Get started <ArrowRightIcon className="h-6 w-10" />
                 </button>
