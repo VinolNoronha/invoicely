@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signInWithGoogle } from "@/lib/actions";
 import google from "@/public/google.png";
 import Image from "next/image";
 
@@ -54,10 +55,12 @@ export default function CardDemo() {
           Login
         </Button>
         <span className="py-2 text-gray-500 text-sm">or</span>
-        <Button variant="secondary" className="w-full">
-          <Image src={google} height={15} width={15} alt="google logo" />
-          Login with Google
-        </Button>
+        <form action={signInWithGoogle} className="w-full">
+          <Button variant="secondary" className="w-full">
+            <Image src={google} height={15} width={15} alt="google logo" />
+            Login with Google
+          </Button>
+        </form>
       </CardFooter>
     </Card>
   );
