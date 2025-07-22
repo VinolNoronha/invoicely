@@ -10,8 +10,9 @@ export default function AuthCallbackPage() {
     const supabase = createClient();
 
     supabase.auth.getUser().then(({ data }) => {
+      console.log(data);
       if (data.user) {
-        router.push("/dashboard");
+        router.push(`/dashboard/${data?.user?.id}`);
       } else {
         router.push("/");
       }
