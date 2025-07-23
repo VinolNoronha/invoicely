@@ -45,7 +45,9 @@ export default async function Layout({
             <DynamicRoute />
           </Suspense>
         </div>
-        <div className="bg-gray-50 h-dvh w-full">{children}</div>
+        <div className="bg-gray-30 flex justify-center items-center h-dvh w-full">
+          {children}
+        </div>
       </main>
     </SidebarProvider>
   );
