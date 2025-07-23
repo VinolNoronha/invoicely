@@ -12,7 +12,7 @@ export default function AuthCallbackPage() {
     supabase.auth.getUser().then(({ data }) => {
       console.log(data);
       if (data.user) {
-        router.push(`/dashboard/${data?.user?.id}`);
+        router.push(`/dashboard/${data?.user?.id}/home`);
       } else {
         router.push("/");
       }

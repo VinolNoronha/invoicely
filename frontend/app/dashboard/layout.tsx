@@ -4,6 +4,8 @@ import { Roboto } from "next/font/google";
 import { AppSidebar } from "@/components/AppSidebar";
 import { cookies } from "next/headers";
 import { createClientServer } from "@/lib/supabase/server";
+import { Suspense } from "react";
+import DynamicRoute from "@/components/dynamic-route";
 
 export const metadata: Metadata = {
   title: "Invoicely / dashboard",
@@ -17,15 +19,17 @@ const roboto = Roboto({
 
 export default async function Layout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { id: string };
 }) {
   //using cookies so tht u persist the open/close state of the sidebar after subsequent rerenders
   const cookieStore = await cookies();
   const supabase = await createClientServer();
-
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
 
+  //to get the current users details
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -36,10 +40,10 @@ export default async function Layout({
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar user={user} />
       <main className="w-full">
-        <div className="h-12 flex items-center">
-          <SidebarTrigger />
-          <span>|</span>
-          <span className="ml-2">Dashboard / Route</span>
+        <div className="h-15 flex items-center">
+          <Suspense fallback={<span className="ml-2">Loading</span>}>
+            <DynamicRoute />
+          </Suspense>
         </div>
         <div className="bg-gray-50 h-dvh w-full">{children}</div>
       </main>
