@@ -1,4 +1,5 @@
 import HomeStats from "@/components/home-stats";
+import TopCustomers from "@/components/top-customers";
 import TotalRevChart from "@/components/TotalRevChart";
 import { Clock, IndianRupee, Layers2Icon, Users } from "lucide-react";
 import React from "react";
@@ -49,6 +50,7 @@ export default function page() {
               Top Customers
             </p>
           </div>
+          <TopCustomers />
         </div>
       </section>
     </section>
