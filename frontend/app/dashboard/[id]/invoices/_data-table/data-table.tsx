@@ -28,6 +28,7 @@ import {
 
 import { columns } from "./columns";
 import { sampleData } from "./data";
+import Link from "next/link";
 
 export function DataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -69,7 +70,9 @@ export function DataTable() {
           }
           className="flex-grow"
         />
-        <Button>Create Invoice</Button>
+        <Button>
+          <Link href="invoices/create-invoice">Create Invoice</Link>
+        </Button>
       </div>
       <div className="rounded-md border">
         <Table>
