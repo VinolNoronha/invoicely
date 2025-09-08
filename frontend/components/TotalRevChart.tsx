@@ -10,21 +10,24 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { getMonthlySales } from "@/lib/utils";
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-  { month: "July", desktop: 314, mobile: 140 },
-  { month: "August", desktop: 244, mobile: 140 },
-  { month: "September", desktop: 124, mobile: 140 },
-  { month: "October", desktop: 234, mobile: 140 },
-  { month: "November", desktop: 212, mobile: 140 },
-  { month: "December", desktop: 216, mobile: 140 },
-];
+// const chartData = [
+//   { month: "January 2024", desktop: 186 },
+//   { month: "February", desktop: 305 },
+//   { month: "March", desktop: 237, mobile: 120 },
+//   { month: "April", desktop: 73, mobile: 190 },
+//   { month: "May", desktop: 209, mobile: 130 },
+//   { month: "June", desktop: 214, mobile: 140 },
+//   { month: "July", desktop: 314, mobile: 140 },
+//   { month: "August", desktop: 244, mobile: 140 },
+//   { month: "September", desktop: 124, mobile: 140 },
+//   { month: "October", desktop: 234, mobile: 140 },
+//   { month: "November", desktop: 212, mobile: 140 },
+//   { month: "December", desktop: 216, mobile: 140 },
+// ];
+
+const chartData = await getMonthlySales("6b8cf389-c67a-4b58-81f9-74af0ced1379");
 
 const chartConfig = {
   desktop: {

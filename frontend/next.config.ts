@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       "lh3.googleusercontent.com", // Google user avatars
+      "uesnxipslchrqjvwasuj.supabase.co",
       // Add other domains you use for images here
     ],
   },

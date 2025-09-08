@@ -1,9 +1,9 @@
 export type Payment = {
   id: string;
   amount: number;
-  status: "pending" | "success";
-  email: string;
+  status: boolean;
+  email: string | null;
   customer: string;
   date: string;
-  pfp?: string;
+  pfp?: string | null;
 };

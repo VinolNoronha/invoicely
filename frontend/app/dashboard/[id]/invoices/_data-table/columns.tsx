@@ -88,12 +88,12 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize bg-amber-30">
         <div
           className={` h-fit w-fit px-2 py-1 rounded-2xl text-xs   ${
-            row.getValue("status") === "success"
+            row.getValue("status") === true
               ? "bg-green-500 text-white"
               : "bg-neutral-300 text-neutral-600"
           }`}
         >
-          {row.getValue("status")}
+          {row.getValue("status") ? "Success" : "Pending"}
         </div>
       </div>
     ),

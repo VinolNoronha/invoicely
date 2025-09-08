@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -27,8 +27,9 @@ import {
 } from "@/components/ui/table";
 
 import { columns } from "./columns";
-import { sampleData } from "./data";
 import Link from "next/link";
+import { Payment } from "./types";
+import { getInvoiceRows } from "@/lib/utils";
 
 export function DataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -37,8 +38,25 @@ export function DataTable() {
     pageIndex: 0, // Starting page
     pageSize: 7, // Rows per page
   });
+  const [data, setData] = useState<Payment[]>([]);
 
-  const data = sampleData;
+  useEffect(() => {
+    async function getData() {
+      try {
+        const dta = await getInvoiceRows(
+          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
+        );
+        setData(dta);
+      } catch (error) {
+        console.log("error fetching the data", error);
+        setData([]);
+      }
+    }
+    getData();
+  }, []);
+  console.log(data);
+
+  // const data = sampleData;
 
   //tanstack api for table
   const table = useReactTable({
