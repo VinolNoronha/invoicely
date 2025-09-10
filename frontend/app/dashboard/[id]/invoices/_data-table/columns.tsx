@@ -25,7 +25,7 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="h-6 w-6 ml-2 rounded-full bg-gray-200 overflow-hidden">
         {row.getValue("pfp") ? (
           <Image
-            src={row.getValue("pfp")}
+            src={String(row.getValue("pfp"))}
             height={30}
             width={30}
             alt="users pfp"
