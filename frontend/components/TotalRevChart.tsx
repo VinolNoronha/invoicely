@@ -10,7 +10,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { getMonthlySales } from "@/lib/utils";
+import { getMonthlySales, getUser } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 // const chartData = [
 //   { month: "January 2024", desktop: 186 },
@@ -27,7 +28,11 @@ import { getMonthlySales } from "@/lib/utils";
 //   { month: "December", desktop: 216, mobile: 140 },
 // ];
 
-const chartData = await getMonthlySales("6b8cf389-c67a-4b58-81f9-74af0ced1379");
+// const user = await getUser();
+// console.log(user);
+// const id = user?.id;
+// console.log(typeof id);
+// const chartData = await getMonthlySales(id);
 
 const chartConfig = {
   desktop: {
@@ -37,6 +42,22 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function TotalChartRev() {
+  const [chartData, setChartData] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const user = await getUser();
+      const id = user?.id;
+
+      if (id) {
+        const data = await getMonthlySales(id);
+        setChartData(data);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <ChartContainer config={chartConfig} className="min-h-[400px] w-20/21">
       <BarChart accessibilityLayer data={chartData}>

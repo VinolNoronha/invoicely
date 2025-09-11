@@ -1,5 +1,6 @@
 "use client";
 import {
+  getUser,
   totalCustomerCount,
   totalInvoicesCount,
   totalPendingRev,
@@ -41,16 +42,12 @@ export default function HomeStats() {
 
   useEffect(() => {
     async function fetchCount() {
-      const result = await totalInvoicesCount(
-        "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-      );
-      const customerCnt = await totalCustomerCount(
-        "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-      );
-      const pendingAmt = await totalPendingRev(
-        "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-      );
-      const totalAmt = await totalRev("6b8cf389-c67a-4b58-81f9-74af0ced1379");
+      const user = await getUser();
+      const id = user?.id;
+      const result = await totalInvoicesCount(id);
+      const customerCnt = await totalCustomerCount(id);
+      const pendingAmt = await totalPendingRev(id);
+      const totalAmt = await totalRev(id);
       setCount(result);
       setTotalCustomerCount(customerCnt);
       setTotalPendingAmount(pendingAmt);

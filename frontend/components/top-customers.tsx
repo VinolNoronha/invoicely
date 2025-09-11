@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import UserList from "./ui/UserList";
-import { getTopCustomers } from "@/lib/utils";
+import { getTopCustomers, getUser } from "@/lib/utils";
 
 // const userData = [
 //   {
@@ -48,9 +48,9 @@ export default function TopCustomers() {
   useEffect(() => {
     async function fetchCustomers() {
       try {
-        const data = await getTopCustomers(
-          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-        );
+        const user = await getUser();
+        const id = user?.id;
+        const data = await getTopCustomers(id);
         setData(data.slice(0, 5));
       } catch (error) {
         console.error("Failed to fetch customers:", error);

@@ -8,7 +8,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export async function totalInvoicesCount(userId: string) {
+export async function getUser() {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    return null;
+  }
+
+  return user;
+}
+
+export async function totalInvoicesCount(userId: string | undefined) {
   const { count, error } = await supabase
     .from("Invoices")
     .select("*", { count: "exact", head: true }) // head:true returns only count, no data
@@ -19,7 +32,7 @@ export async function totalInvoicesCount(userId: string) {
   return count;
 }
 
-export async function totalCustomerCount(userId: string) {
+export async function totalCustomerCount(userId: string | undefined) {
   const { data, error } = await supabase
     .from("Invoices")
     .select("client_name")
@@ -35,7 +48,7 @@ export async function totalCustomerCount(userId: string) {
   return unique.size || 0;
 }
 
-export async function totalPendingRev(userId: string) {
+export async function totalPendingRev(userId: string | undefined) {
   let { data: pendingAmount, error } = await supabase
     .from("Invoices")
     .select("total_amount")
@@ -55,7 +68,7 @@ export async function totalPendingRev(userId: string) {
   return Number(pending?.toFixed(1)) || 0;
 }
 
-export async function totalRev(userId: string) {
+export async function totalRev(userId: string | undefined) {
   let { data: totalAmount, error } = await supabase
     .from("Invoices")
     .select("total_amount")
@@ -76,7 +89,7 @@ export async function totalRev(userId: string) {
   return Number(total?.toFixed(1)) || 0;
 }
 
-export async function getMonthlySales(userId: string) {
+export async function getMonthlySales(userId: string | undefined) {
   let { data: monthlySales, error } = await supabase
     .from("Invoices")
     .select("total_amount, dated")
@@ -118,7 +131,7 @@ function segregationSales(invoices: { total_amount: number; dated: string }[]) {
   return result.map(({ month, desktop }) => ({ month, desktop }));
 }
 
-export async function getTopCustomers(userId: string) {
+export async function getTopCustomers(userId: string | undefined) {
   let { data: invoices, error } = await supabase
     .from("Invoices")
     .select("client_name, email, pfp, total_amount")
@@ -186,4 +199,52 @@ export async function getInvoiceRows(userId: string) {
       pfp: inv.pfp ?? null,
     })) ?? []
   );
+}
+
+export async function getTotalGstCollection(userId: string | undefined) {
+  let { data: op_gst, error } = await supabase
+    .from("Invoices")
+    .select("op_gst")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const totalGstColl = op_gst?.reduce((acc, obj) => {
+    return acc + obj.op_gst;
+  }, 0);
+
+  return Number(totalGstColl?.toFixed(2));
+}
+
+export async function getTotalTaxableAmount(userId: string | undefined) {
+  let { data: total_amt, error } = await supabase
+    .from("Invoices")
+    .select("total_taxable_amt")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const total_tax_amt = total_amt?.reduce((acc, ele) => {
+    return acc + ele.total_taxable_amt;
+  }, 0);
+
+  return Number(total_tax_amt?.toFixed(2));
+}
+
+export async function getGrossCollection(userId: string | undefined) {
+  let { data: total_amt, error } = await supabase
+    .from("Invoices")
+    .select("total_amount")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const total_amount = total_amt?.reduce((acc, ele) => {
+    return acc + ele.total_amount;
+  }, 0);
+
+  return Number(total_amount?.toFixed(2));
 }
