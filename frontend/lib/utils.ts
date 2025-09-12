@@ -248,3 +248,23 @@ export async function getGrossCollection(userId: string | undefined) {
 
   return Number(total_amount?.toFixed(2));
 }
+
+export async function getGstChartData(userId: string | undefined) {
+  let { data, error } = await supabase
+    .from("Invoices")
+    .select("dated, total_amount, op_gst")
+    .eq("id", userId)
+    .not("client_name", "is", null)
+    .order("dated", { ascending: true });
+
+  if (error) throw error;
+
+  const dta = data?.map((inv) => {
+    return {
+      date: inv.dated,
+      total_amount: Number(inv.total_amount.toFixed(0)),
+      op_gst: Number(inv.op_gst.toFixed(0)),
+    };
+  });
+  return dta;
+}
