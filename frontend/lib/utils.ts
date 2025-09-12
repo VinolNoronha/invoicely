@@ -268,3 +268,23 @@ export async function getGstChartData(userId: string | undefined) {
   });
   return dta;
 }
+
+export async function getMissingIrnData(userId: string | undefined) {
+  let { data, error } = await supabase
+    .from("Invoices")
+    .select("invoice_no, GSTIN, dated")
+    .eq("id", userId)
+    .eq("irn", false);
+
+  if (error) throw error;
+
+  const dta = data?.map((obj) => {
+    return {
+      invoice_num: obj.invoice_no,
+      GST_IN: obj.GSTIN,
+      dated: obj.dated,
+    };
+  });
+
+  return dta;
+}

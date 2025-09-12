@@ -11,20 +11,23 @@ interface irnProps {
 
 export default function Irnlist({ ind, data }: irnProps) {
   return (
-    <div
-      className={`bg-white h-10 border border-x-0 border-t-0 border-b-neutral-400`}
-    >
-      <div className="flex items-center justify-around h-full gap-4 ">
-        <div>
-          <span className="text-md font-bold text-black">
-            {data?.invoice_num || ""}
+    <div className="bg-white w-full border-b border-gray-300 hover:bg-gray-50 transition-colors rounded-md">
+      <div className="flex items-center justify-between px-4 py-2 gap-4">
+        {/* Invoice Number */}
+        <div className="flex-1">
+          <span className="text-sm font-semibold text-gray-900">
+            {data?.invoice_num || "-"}
           </span>
         </div>
-        <div>
-          <h3 className="text-md text-black">{data?.GST_IN || ""}</h3>
+
+        {/* GSTIN */}
+        <div className="flex-1 text-center">
+          <span className="text-sm text-gray-700">{data?.GST_IN || "-"}</span>
         </div>
-        <div>
-          <p>{data?.dated || ""}</p>
+
+        {/* Date */}
+        <div className="flex-1 text-right">
+          <span className="text-sm text-gray-600">{data?.dated || "-"}</span>
         </div>
       </div>
     </div>
