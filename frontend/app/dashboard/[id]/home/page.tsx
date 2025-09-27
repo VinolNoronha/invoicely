@@ -1,4 +1,6 @@
 import HomeStats from "@/components/home-stats";
+import SkeletonHomeStats from "@/components/skeleton/skeletonHomeStats";
+import SkeletonTopCustomers from "@/components/skeleton/skeletonTopCustHome";
 import TopCustomers from "@/components/top-customers";
 import TotalRevChart from "@/components/TotalRevChart";
 import React, { Suspense } from "react";
@@ -11,7 +13,7 @@ export default function page() {
           return <HomeStats data={ele} key={ele.title} />;
         })}
       </section> */}
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<SkeletonHomeStats />}>
         <HomeStats />
       </Suspense>
       <section className="flex-grow flex gap-5 items-center w-full bg-yellow-60">
@@ -30,7 +32,7 @@ export default function page() {
             </p>
           </div>
 
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<SkeletonTopCustomers />}>
             <TopCustomers />
           </Suspense>
         </div>

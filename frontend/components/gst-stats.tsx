@@ -3,6 +3,7 @@ import {
   getGrossCollection,
   getTotalGstCollection,
   getTotalTaxableAmount,
+  getUser,
   totalCustomerCount,
   totalInvoicesCount,
   totalPendingRev,
@@ -51,18 +52,13 @@ export default function GstStats() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const op_gst = await getTotalGstCollection(
-          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-        );
-        const taxable_amt = await getTotalTaxableAmount(
-          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-        );
-        const gross_amt = await getGrossCollection(
-          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-        );
-        const result = await totalInvoicesCount(
-          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-        );
+        const user = await getUser();
+        const id = user?.id;
+
+        const op_gst = await getTotalGstCollection(id);
+        const taxable_amt = await getTotalTaxableAmount(id);
+        const gross_amt = await getGrossCollection(id);
+        const result = await totalInvoicesCount(id);
         setTotalGstCollection(op_gst);
         setTotalTaxableAmount(taxable_amt);
         setGrossCollection(gross_amt);

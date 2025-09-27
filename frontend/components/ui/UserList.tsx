@@ -16,6 +16,10 @@ export default function UserList({
   userData: Customer;
   ind: number;
 }) {
+  const formattedAmt = new Intl.NumberFormat("en-IN").format(
+    Number(userData.total_amount?.toFixed(0))
+  );
+
   return (
     <div
       className={`bg-white h-18 border border-x-0 border-t-0 ${
@@ -42,7 +46,7 @@ export default function UserList({
           <p className="text-sm text-gray-500">{userData.email}</p>
         </div>
         <div className="mt-1 flex-grow flex justify-end  text-md pr-1.5   text-black w-fit">
-          <p>{userData.total_amount} Rs.</p>
+          <p>{formattedAmt} Rs.</p>
         </div>
       </div>
     </div>

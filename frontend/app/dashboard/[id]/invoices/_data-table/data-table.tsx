@@ -26,10 +26,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { columns } from "./columns";
+import { createColumns } from "./columns";
 import Link from "next/link";
-import { Payment } from "./types";
-import { getInvoiceRows } from "@/lib/utils";
+import { InvoiceObj, Payment } from "./types";
+import { getInvoiceDetails, getInvoiceRows, getUser } from "@/lib/utils";
+import EditInvoiceModal from "@/components/EditInvoiceModal";
 
 export function DataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -39,29 +40,58 @@ export function DataTable() {
     pageSize: 7, // Rows per page
   });
   const [data, setData] = useState<Payment[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); //state to track modal open state
+  const [selectedInvoice, setIsSelectedInvoice] = useState<Payment | null>(
+    null
+  ); //invoice data obj: this object contains partial data thats y only using the form id from this
+  const [formData, setFormData] = useState<InvoiceObj | null>(null); // contains all the data related to invoice
+
+  async function getData() {
+    try {
+      const user = await getUser();
+      const id = user?.id;
+      const dta = await getInvoiceRows(id);
+      setData(dta);
+    } catch (error) {
+      console.log("error fetching the data", error);
+      setData([]);
+    }
+  }
 
   useEffect(() => {
-    async function getData() {
-      try {
-        const dta = await getInvoiceRows(
-          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-        );
-        setData(dta);
-      } catch (error) {
-        console.log("error fetching the data", error);
-        setData([]);
-      }
-    }
     getData();
   }, []);
-  console.log(data);
+
+  useEffect(() => {
+    async function getInvoiceData() {
+      if (selectedInvoice) {
+        console.log(selectedInvoice.id);
+        const data = await getInvoiceDetails(selectedInvoice.id); // get the invoice details using inv no.
+        setFormData(data?.[0]);
+        //console.log(data?.[0]);
+      }
+    }
+    getInvoiceData();
+  }, [selectedInvoice, isModalOpen]);
+  // console.log(data);
+
+  const handleEditClick = (invoice: Payment) => {
+    setIsSelectedInvoice(invoice);
+    setFormData(null);
+    setIsModalOpen(true);
+  };
+
+  // const handleClose = () => {
+  //   setIsModalOpen(false);
+  //   setFormData(null); // reset edits
+  // };
 
   // const data = sampleData;
 
   //tanstack api for table
   const table = useReactTable({
     data,
-    columns, //column defination
+    columns: createColumns({ onEditClick: handleEditClick }), //column defination
     onSortingChange: setSorting,
     onPaginationChange: setPagination, // Add pagination handler
     onColumnFiltersChange: setColumnFilters,
@@ -132,7 +162,7 @@ export function DataTable() {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={createColumns?.length}
                   className="h-24 text-center"
                 >
                   No results.
@@ -165,6 +195,14 @@ export function DataTable() {
             Next
           </Button>
         </div>
+      </div>
+      <div>
+        <EditInvoiceModal
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          invoice={formData}
+          refreshData={getData}
+        />
       </div>
     </div>
   );

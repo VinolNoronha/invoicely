@@ -1,4 +1,4 @@
-import { columns } from "./_data-table/columns";
+//import { columns } from "./_data-table/columns";
 import { DataTable } from "./_data-table/data-table";
 
 type Payment = {

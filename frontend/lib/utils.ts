@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { createClient } from "@/lib/supabase/client";
+import { InvoiceObj } from "@/app/dashboard/[id]/invoices/_data-table/types";
 
 const supabase = createClient();
 
@@ -21,6 +22,7 @@ export async function getUser() {
   return user;
 }
 
+//home stats
 export async function totalInvoicesCount(userId: string | undefined) {
   const { count, error } = await supabase
     .from("Invoices")
@@ -131,54 +133,55 @@ function segregationSales(invoices: { total_amount: number; dated: string }[]) {
   return result.map(({ month, desktop }) => ({ month, desktop }));
 }
 
-export async function getTopCustomers(userId: string | undefined) {
-  let { data: invoices, error } = await supabase
-    .from("Invoices")
-    .select("client_name, email, pfp, total_amount")
-    .eq("id", userId)
-    .not("client_name", "is", null);
+// get top customers homepage
+// export async function getTopCustomers(userId: string | undefined) {
+//   let { data: invoices, error } = await supabase
+//     .from("Invoices")
+//     .select("client_name, email, pfp, total_amount")
+//     .eq("id", userId)
+//     .not("client_name", "is", null);
 
-  if (error) throw error;
+//   if (error) throw error;
 
-  const clientDetails: {
-    [key: string]: {
-      total_amount: number;
-      email?: string;
-      pfp?: string;
-    };
-  } = {};
+//   const clientDetails: {
+//     [key: string]: {
+//       total_amount: number;
+//       email?: string;
+//       pfp?: string;
+//     };
+//   } = {};
 
-  invoices?.forEach((invoice) => {
-    const client = invoice.client_name;
-    // const pic = invoice.pfp;
-    // const email = invoice.email;
-    const amount = invoice.total_amount || 0;
+//   invoices?.forEach((invoice) => {
+//     const client = invoice.client_name;
+//     // const pic = invoice.pfp;
+//     // const email = invoice.email;
+//     const amount = invoice.total_amount || 0;
 
-    if (client) {
-      if (!clientDetails[client]) {
-        clientDetails[client] = {
-          total_amount: 0,
-          email: invoice.email,
-          pfp: invoice.pfp,
-        };
-      }
-      clientDetails[client].total_amount += amount;
-    }
-  });
+//     if (client) {
+//       if (!clientDetails[client]) {
+//         clientDetails[client] = {
+//           total_amount: 0,
+//           email: invoice.email,
+//           pfp: invoice.pfp,
+//         };
+//       }
+//       clientDetails[client].total_amount += amount;
+//     }
+//   });
 
-  const topCustomers = Object.entries(clientDetails)
-    .map(([client_name, details]) => ({
-      client_name,
-      total_amount: Number(details.total_amount.toFixed(1)),
-      email: details.email || null,
-      pfp: details.pfp || null,
-    }))
-    .sort((a, b) => b.total_amount - a.total_amount);
+//   const topCustomers = Object.entries(clientDetails)
+//     .map(([client_name, details]) => ({
+//       client_name,
+//       total_amount: Number(details.total_amount.toFixed(1)),
+//       email: details.email || null,
+//       pfp: details.pfp || null,
+//     }))
+//     .sort((a, b) => b.total_amount - a.total_amount);
 
-  return topCustomers;
-}
+//   return topCustomers.slice(0, 5);
+// }
 
-export async function getInvoiceRows(userId: string) {
+export async function getInvoiceRows(userId: string | undefined) {
   let { data: totalInvoices, error } = await supabase
     .from("Invoices")
     .select("invoice_no, total_amount, status, email, client_name, dated,  pfp")
@@ -287,4 +290,30 @@ export async function getMissingIrnData(userId: string | undefined) {
   });
 
   return dta;
+}
+
+export async function getInvoiceDetails(invoice_num: string) {
+  let { data: invoice_dta, error } = await supabase
+    .from("Invoices")
+    .select("*")
+    .eq("invoice_no", invoice_num);
+
+  if (error) throw Error;
+
+  return invoice_dta;
+}
+
+export async function updateRow(
+  updatedData: InvoiceObj | null,
+  invoice_num: string | undefined
+) {
+  const { data, error } = await supabase
+    .from("Invoices")
+    .update(updatedData)
+    .eq("invoice_no", invoice_num)
+    .select();
+
+  if (error) throw error;
+
+  return data;
 }

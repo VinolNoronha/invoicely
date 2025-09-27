@@ -67,3 +67,132 @@ export async function invoiceData(formData: FormData) {
   revalidatePath(`/dashboard/${user.id}/invoices`);
   redirect(`/dashboard/${user.id}/invoices`);
 }
+
+//homepage homestats server functions
+export async function totalInvoicesCountServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  const { count, error } = await supabase
+    .from("Invoices")
+    .select("*", { count: "exact", head: true }) // only count
+    .eq("id", userId);
+
+  if (error) throw error;
+  return count;
+}
+
+export async function totalCustomerCountServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  const { data, error } = await supabase
+    .from("Invoices")
+    .select("client_name")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const unique = new Set(
+    (data ?? []).map((r) => r.client_name?.trim().toLowerCase()).filter(Boolean)
+  );
+
+  return unique.size || 0;
+}
+
+export async function totalPendingRevServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  const { data, error } = await supabase
+    .from("Invoices")
+    .select("total_amount")
+    .eq("id", userId)
+    .eq("status", false);
+
+  if (error) throw error;
+
+  const pending = data?.reduce(
+    (acc, item) => acc + (item.total_amount || 0),
+    0
+  );
+  return Number(pending?.toFixed(1)) || 0;
+}
+
+export async function totalRevServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  const { data, error } = await supabase
+    .from("Invoices")
+    .select("total_amount")
+    .eq("id", userId);
+
+  if (error) throw error;
+
+  const total = data?.reduce((acc, item) => acc + (item.total_amount || 0), 0);
+  return Number(total?.toFixed(1)) || 0;
+}
+
+//get user for server components which are using suspense
+export async function getUserServer() {
+  "use server";
+  const supabase = await createClientServer();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    return null;
+  }
+
+  return user;
+}
+
+//home page top customers server function
+export async function getTopCustomersServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  let { data: invoices, error } = await supabase
+    .from("Invoices")
+    .select("client_name, email, pfp, total_amount")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const clientDetails: {
+    [key: string]: {
+      total_amount: number;
+      email?: string;
+      pfp?: string;
+    };
+  } = {};
+
+  invoices?.forEach((invoice) => {
+    const client = invoice.client_name;
+    // const pic = invoice.pfp;
+    // const email = invoice.email;
+    const amount = invoice.total_amount || 0;
+
+    if (client) {
+      if (!clientDetails[client]) {
+        clientDetails[client] = {
+          total_amount: 0,
+          email: invoice.email,
+          pfp: invoice.pfp,
+        };
+      }
+      clientDetails[client].total_amount += amount;
+    }
+  });
+
+  const topCustomers = Object.entries(clientDetails)
+    .map(([client_name, details]) => ({
+      client_name,
+      total_amount: Number(details.total_amount.toFixed(1)),
+      email: details.email || null,
+      pfp: details.pfp || null,
+    }))
+    .sort((a, b) => b.total_amount - a.total_amount);
+
+  return topCustomers.slice(0, 5);
+}

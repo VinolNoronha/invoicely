@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getGstChartData } from "@/lib/utils";
+import { getGstChartData, getUser } from "@/lib/utils";
 
 const chartConfig = {
   visitors: {
@@ -53,7 +53,9 @@ export default function TotalTaxChart() {
 
   React.useEffect(() => {
     async function fetchData() {
-      const dta = await getGstChartData("6b8cf389-c67a-4b58-81f9-74af0ced1379");
+      const user = await getUser();
+      const id = user?.id;
+      const dta = await getGstChartData(id);
       setChartData(dta || []);
     }
     fetchData();

@@ -1,50 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Irnlist from "./ui/Irnlist";
-import { getMissingIrnData } from "@/lib/utils";
-
-// const data = [
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-//   {
-//     invoice_num: "INV-007",
-//     GST_IN: "27AAC098348",
-//     dated: "25/05/21",
-//   },
-// ];
+import { getMissingIrnData, getUser } from "@/lib/utils";
 
 type irnData = {
   invoice_num: string;
@@ -58,9 +15,9 @@ export default function Irn() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const dta = await getMissingIrnData(
-          "6b8cf389-c67a-4b58-81f9-74af0ced1379"
-        );
+        const user = await getUser();
+        const id = user?.id;
+        const dta = await getMissingIrnData(id);
         setData(dta);
       } catch (e) {
         console.log(e);
