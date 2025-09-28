@@ -1,4 +1,3 @@
-import { getTopCustomers } from "@/lib/utils";
 import { User2 } from "lucide-react";
 import React from "react";
 
@@ -16,10 +15,9 @@ export default function UserList({
   userData: Customer;
   ind: number;
 }) {
-  const formattedAmt = new Intl.NumberFormat("en-IN").format(
-    Number(userData.total_amount?.toFixed(0))
+  const formattedTotalAmt = new Intl.NumberFormat("en-IN").format(
+    Number(userData.total_amount?.toFixed(0)) ?? 0
   );
-
   return (
     <div
       className={`bg-white h-18 border border-x-0 border-t-0 ${
@@ -46,7 +44,7 @@ export default function UserList({
           <p className="text-sm text-gray-500">{userData.email}</p>
         </div>
         <div className="mt-1 flex-grow flex justify-end  text-md pr-1.5   text-black w-fit">
-          <p>{formattedAmt} Rs.</p>
+          <p>{formattedTotalAmt} Rs.</p>
         </div>
       </div>
     </div>

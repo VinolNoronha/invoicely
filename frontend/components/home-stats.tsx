@@ -82,26 +82,29 @@ export default async function HomeStats() {
   console.log(totalCustCount);
 
   return (
-    <section className=" flex items-center justify-around h-1/4 w-full">
-      {data.map((ele) => {
-        return (
-          <div
-            className="w-1/5 h-30/31 flex flex-col items-center gap-3 bg-gray-50 rounded-md p-4"
-            key={ele.title}
-          >
-            <div className="flex gap-2 items-center w-full">
-              {ele.icon}
-              <p className="text-sm font-medium text-black">{ele.title}</p>
-            </div>
-
-            <div className="bg-white h-full w-full p-4 rounded-sm flex items-center justify-center">
-              <span className="text-2xl font-bold text-gray-800">
-                {ele.number}
-              </span>
-            </div>
+    <section className="flex flex-wrap justify-around gap-4 w-full">
+      {data.map((ele) => (
+        <div
+          key={ele.title}
+          className="flex flex-col items-center gap-3 bg-gray-50 rounded-md p-4
+                 w-full sm:w-1/2 md:w-1/4 lg:w-1/5 box-border"
+        >
+          {/* Icon + title */}
+          <div className="flex gap-2 items-center w-full">
+            {ele.icon}
+            <p className="text-sm font-medium text-black truncate">
+              {ele.title}
+            </p>
           </div>
-        );
-      })}
+
+          {/* Number */}
+          <div className="bg-white w-full p-4 rounded-sm flex items-center justify-center min-h-[60px]">
+            <span className="text-2xl font-bold text-gray-800">
+              {ele.number ?? "-"}
+            </span>
+          </div>
+        </div>
+      ))}
     </section>
   );
 }

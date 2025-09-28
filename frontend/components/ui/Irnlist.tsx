@@ -11,7 +11,7 @@ interface irnProps {
 
 export default function Irnlist({ ind, data }: irnProps) {
   return (
-    <div className="bg-white w-full border-b border-gray-300 hover:bg-gray-50 transition-colors rounded-md">
+    <div className="bg-white w-full border-b border-gray-200 hover:bg-gray-50 transition-colors">
       <div className="flex items-center justify-between px-4 py-2 gap-4">
         {/* Invoice Number */}
         <div className="flex-1">

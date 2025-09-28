@@ -55,17 +55,21 @@ const data: descItem[] = [
 
 export default function InvDescrepencie() {
   return (
-    <div className="h-[29vh] w-[45%] ml-7 flex flex-col overflow-hidden  bg-gray-50 rounded-md">
-      <div className="w-full">
+    <div className="h-[29vh] w-[45%] ml-7 flex flex-col overflow-hidden bg-gray-50 rounded-md shadow-sm border">
+      <div className="w-full border-b">
         <p className="text-sm font-medium pl-3 text-black hover:underline hover:decoration-2 mt-2 hover:decoration-blue-600">
           Invoice Discrepancies
         </p>
       </div>
-      <div className="h-[90%] w-full flex overflow-y-scroll justify-center mt-1">
-        <div className="h-[90%] w-[95%]  rounded-md">
-          {data.map((ele, ind) => {
-            return <DiscrepencieList key={ind} data={ele} />;
-          })}
+      <div className="h-[90%] w-full flex overflow-y-scroll justify-center mt-1 scrollbar-thin scrollbar-thumb-gray-300">
+        <div className="h-[90%] w-[95%] rounded-md">
+          {data.length > 0 ? (
+            data.map((ele, ind) => <DiscrepencieList key={ind} data={ele} />)
+          ) : (
+            <p className="text-center text-gray-500 mt-4">
+              No discrepancies found
+            </p>
+          )}
         </div>
       </div>
     </div>

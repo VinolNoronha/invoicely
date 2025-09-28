@@ -16,24 +16,18 @@ interface descItem {
 
 export default function DiscrepencieList({ data }: { data: descItem }) {
   return (
-    <div
-      className={`bg-white h-10 border border-x-0 border-t-0 border-b-neutral-400`}
-    >
-      <div className="flex items-center justify-around h-full gap-4 ">
-        <div>
-          <span className="text-md font-bold text-black">
-            {data?.invoice_num || ""}
-          </span>
-        </div>
-        <div>
-          <h3 className="text-md text-black">{data?.supplier_gstin || ""}</h3>
-        </div>
-        <div>
-          <p>{data?.gstr2a_status || ""}</p>
-        </div>
-        <div>
-          <p>{data?.mismatch_reason || ""}</p>
-        </div>
+    <div className="bg-white h-12 border-b border-neutral-300 px-3 hover:bg-gray-50 transition-colors">
+      <div className="flex items-center justify-between h-full text-sm">
+        <span className="font-semibold text-black">{data.invoice_num}</span>
+        <span className="text-gray-600">{data.supplier_gstin}</span>
+        <span
+          className={`px-2 py-1 rounded text-xs font-medium ${[
+            data.gstr2a_status,
+          ]}`}
+        >
+          {data.gstr2a_status}
+        </span>
+        <span className="text-gray-500 italic">{data.mismatch_reason}</span>
       </div>
     </div>
   );

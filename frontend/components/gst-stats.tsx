@@ -1,14 +1,11 @@
-"use client";
 import {
-  getGrossCollection,
-  getTotalGstCollection,
-  getTotalTaxableAmount,
-  getUser,
-  totalCustomerCount,
-  totalInvoicesCount,
-  totalPendingRev,
-  totalRev,
-} from "@/lib/utils";
+  getGrossCollectionServer,
+  getTotalGstCollectionServer,
+  getTotalTaxableAmountServer,
+  getUserServer,
+  totalInvoicesCountServer,
+} from "@/lib/actions";
+
 import {
   BadgeIndianRupee,
   Banknote,
@@ -18,28 +15,47 @@ import {
   Layers2Icon,
   Users,
 } from "lucide-react";
-import React, { ReactElement, useEffect, useState } from "react";
+import React from "react";
 
-export default function GstStats() {
-  const [totalGstCollection, setTotalGstCollection] = useState<null | number>();
-  const [totalTaxableAmount, setTotalTaxableAmount] = useState<null | number>();
-  const [grossCollection, setGrossCollection] = useState<null | number>();
-  const [count, setCount] = useState<number | null>(null);
+export default async function GstStats() {
+  // const [totalGstCollection, setTotalGstCollection] = useState<null | number>();
+  // const [totalTaxableAmount, setTotalTaxableAmount] = useState<null | number>();
+  // const [grossCollection, setGrossCollection] = useState<null | number>();
+  // const [count, setCount] = useState<number | null>(null);
+  const user = await getUserServer();
+  const id = user?.id;
+
+  const [totalGstCollection, totalTaxableAmount, grossCollection, count] =
+    await Promise.all([
+      getTotalGstCollectionServer(id),
+      getTotalTaxableAmountServer(id),
+      getGrossCollectionServer(id),
+      totalInvoicesCountServer(id),
+    ]);
+  const formattedTotalGstColl = new Intl.NumberFormat("en-IN").format(
+    Number(totalGstCollection?.toFixed(0)) ?? 0
+  );
+  const formattedtotalTaxableAmt = new Intl.NumberFormat("en-IN").format(
+    Number(totalTaxableAmount?.toFixed(0)) ?? 0
+  );
+  const formattedGrossCollection = new Intl.NumberFormat("en-IN").format(
+    Number(grossCollection?.toFixed(0)) ?? 0
+  );
 
   const data = [
     {
       title: "Total GST collected",
-      number: totalGstCollection,
+      number: `${formattedTotalGstColl} Rs`,
       icon: <HandCoinsIcon className="h-5 w-5 text-black" />,
     },
     {
       title: "Taxable amount",
-      number: totalTaxableAmount,
+      number: `${formattedtotalTaxableAmt} Rs`,
       icon: <Banknote className="h-5 w-5 text-black" />,
     },
     {
       title: "Gross collection",
-      number: grossCollection,
+      number: `${formattedGrossCollection} Rs`,
       icon: <BadgeIndianRupee className="h-5 w-5 text-black" />,
     },
     {
@@ -49,31 +65,26 @@ export default function GstStats() {
     },
   ];
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const user = await getUser();
-        const id = user?.id;
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const user = await getUser();
+  //       const id = user?.id;
 
-        const op_gst = await getTotalGstCollection(id);
-        const taxable_amt = await getTotalTaxableAmount(id);
-        const gross_amt = await getGrossCollection(id);
-        const result = await totalInvoicesCount(id);
-        setTotalGstCollection(op_gst);
-        setTotalTaxableAmount(taxable_amt);
-        setGrossCollection(gross_amt);
-        setCount(result);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    fetchData();
-  }, []);
-
-  // console.log(totalGstCollection);
-  // console.log(totalTaxableAmount);
-  // console.log(grossCollection);
-  // console.log(count);
+  //       const op_gst = await getTotalGstCollection(id);
+  //       const taxable_amt = await getTotalTaxableAmount(id);
+  //       const gross_amt = await getGrossCollection(id);
+  //       const result = await totalInvoicesCount(id);
+  //       setTotalGstCollection(op_gst);
+  //       setTotalTaxableAmount(taxable_amt);
+  //       setGrossCollection(gross_amt);
+  //       setCount(result);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
 
   return (
     <section className=" flex items-center justify-around h-full w-full">

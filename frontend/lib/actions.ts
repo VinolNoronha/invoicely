@@ -196,3 +196,81 @@ export async function getTopCustomersServer(userId: string | undefined) {
 
   return topCustomers.slice(0, 5);
 }
+
+//gst stats starts
+export async function getTotalGstCollectionServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  let { data: op_gst, error } = await supabase
+    .from("Invoices")
+    .select("op_gst")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const totalGstColl = op_gst?.reduce((acc, obj) => {
+    return acc + obj.op_gst;
+  }, 0);
+
+  return Number(totalGstColl?.toFixed(2));
+}
+
+export async function getTotalTaxableAmountServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  let { data: total_amt, error } = await supabase
+    .from("Invoices")
+    .select("total_taxable_amt")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const total_tax_amt = total_amt?.reduce((acc, ele) => {
+    return acc + ele.total_taxable_amt;
+  }, 0);
+
+  return Number(total_tax_amt?.toFixed(2));
+}
+
+export async function getGrossCollectionServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  let { data: total_amt, error } = await supabase
+    .from("Invoices")
+    .select("total_amount")
+    .eq("id", userId)
+    .not("client_name", "is", null);
+
+  if (error) throw error;
+
+  const total_amount = total_amt?.reduce((acc, ele) => {
+    return acc + ele.total_amount;
+  }, 0);
+
+  return Number(total_amount?.toFixed(2));
+}
+
+//gst missing irn
+export async function getMissingIrnDataServer(userId: string | undefined) {
+  "use server";
+  const supabase = await createClientServer();
+  let { data, error } = await supabase
+    .from("Invoices")
+    .select("invoice_no, GSTIN, dated")
+    .eq("id", userId)
+    .eq("irn", false);
+
+  if (error) throw error;
+
+  const dta = data?.map((obj) => {
+    return {
+      invoice_num: obj.invoice_no,
+      GST_IN: obj.GSTIN,
+      dated: obj.dated,
+    };
+  });
+
+  return dta;
+}

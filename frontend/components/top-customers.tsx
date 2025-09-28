@@ -33,10 +33,10 @@ export default async function TopCustomers() {
   // console.log(datatemp);
 
   return (
-    <div className="bg-white mx-3 px-3 my-2 h-full rounded-sm">
-      {datatemp?.map((curr, ind) => {
-        return <UserList key={curr.email} ind={ind} userData={curr} />;
-      })}
+    <div className="bg-white mx-3 px-3 my-2 rounded-sm">
+      {datatemp?.map((curr, ind) => (
+        <UserList key={curr.email} ind={ind} userData={curr} />
+      ))}
     </div>
   );
 }

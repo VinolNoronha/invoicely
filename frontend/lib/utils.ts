@@ -204,6 +204,7 @@ export async function getInvoiceRows(userId: string | undefined) {
   );
 }
 
+//gst stats starts here
 export async function getTotalGstCollection(userId: string | undefined) {
   let { data: op_gst, error } = await supabase
     .from("Invoices")
@@ -251,6 +252,7 @@ export async function getGrossCollection(userId: string | undefined) {
 
   return Number(total_amount?.toFixed(2));
 }
+//ends
 
 export async function getGstChartData(userId: string | undefined) {
   let { data, error } = await supabase
