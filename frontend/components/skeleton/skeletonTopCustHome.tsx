@@ -1,8 +1,7 @@
-// components/ui/SkeletonTopCustomers.tsx
 import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function SkeletonTopCustomers() {
-  // let's assume we show 5 placeholder rows
+const SkeletonTopCustomers: React.FC = () => {
   const placeholderRows = Array.from({ length: 5 });
 
   return (
@@ -10,21 +9,23 @@ export default function SkeletonTopCustomers() {
       {placeholderRows.map((_, ind) => (
         <div
           key={ind}
-          className="flex items-center gap-3 p-3 border-b border-gray-200 animate-pulse"
+          className="flex items-center gap-3 p-3 border-b border-gray-200"
         >
           {/* Profile picture placeholder */}
-          <div className="w-10 h-10 rounded-full bg-gray-300" />
+          <Skeleton className="w-10 h-10 rounded-full" />
 
           {/* Name and email placeholders */}
           <div className="flex-1 space-y-2 py-1">
-            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-            <div className="h-3 bg-gray-300 rounded w-1/2"></div>
+            <Skeleton className="h-4 w-3/4 rounded" />
+            <Skeleton className="h-3 w-1/2 rounded" />
           </div>
 
           {/* Amount placeholder */}
-          <div className="h-4 w-16 bg-gray-300 rounded"></div>
+          <Skeleton className="h-4 w-16 rounded" />
         </div>
       ))}
     </div>
   );
-}
+};
+
+export default SkeletonTopCustomers;

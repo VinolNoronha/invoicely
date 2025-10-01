@@ -56,9 +56,9 @@ const data: descItem[] = [
 export default function InvDescrepencie() {
   return (
     <div className="h-[29vh] w-[45%] ml-7 flex flex-col overflow-hidden bg-gray-50 rounded-md shadow-sm border">
-      <div className="w-full border-b">
-        <p className="text-sm font-medium pl-3 text-black hover:underline hover:decoration-2 mt-2 hover:decoration-blue-600">
-          Invoice Discrepancies
+      <div className="w-full border-b border-gray-200 px-4 py-2 bg-gray-50">
+        <p className="text-sm font-semibold text-gray-800">
+          Invoice Descrepencies
         </p>
       </div>
       <div className="h-[90%] w-full flex overflow-y-scroll justify-center mt-1 scrollbar-thin scrollbar-thumb-gray-300">

@@ -124,7 +124,7 @@ export function createColumns({
               <DropdownMenuItem onClick={() => onEditClick(payment)}>
                 Edit Row
               </DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
+              <DropdownMenuItem>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
