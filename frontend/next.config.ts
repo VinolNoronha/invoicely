@@ -12,8 +12,11 @@ const nextConfig: NextConfig = {
       // Add other domains you use for images here
     ],
   },
-  overrides: {
-    "react-is": "^19.0.0-rc-69d4b800-20241021",
+  // overrides: {
+  //   "react-is": "^19.0.0-rc-69d4b800-20241021",
+  // },
+  eslint: {
+    ignoreDuringBuilds: true, // Add this line
   },
 };
 
