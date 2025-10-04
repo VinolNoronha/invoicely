@@ -17,6 +17,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { CardContent } from "./ui/card";
 import { getInvoiceDetails, updateRow } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface EditInvoiceModalProps {
   open: boolean;
@@ -55,6 +56,7 @@ export default function EditInvoiceModal({
       console.log("Updated invoice:", formData);
       await updateRow(formData, formData?.invoice_no);
       await refreshData();
+      toast("Invoice updated successfully");
       console.log("Invoice updated successfully");
       onClose();
     } catch (err) {

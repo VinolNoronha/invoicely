@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { createClientServer } from "@/lib/supabase/server";
 import { Suspense } from "react";
 import DynamicRoute from "@/components/dynamic-route";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Invoicely / dashboard",
@@ -48,6 +49,7 @@ export default async function Layout({
         <div className="bg-gray-30 flex justify-center items-center h-dvh w-full">
           {children}
         </div>
+        <Toaster />
       </main>
     </SidebarProvider>
   );

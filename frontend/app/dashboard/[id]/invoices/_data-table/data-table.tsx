@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +31,7 @@ import Link from "next/link";
 import { InvoiceObj, Payment } from "./types";
 import { getInvoiceDetails, getInvoiceRows, getUser } from "@/lib/utils";
 import EditInvoiceModal from "@/components/EditInvoiceModal";
+import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 
 export function DataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -41,13 +42,17 @@ export function DataTable() {
   });
   const [data, setData] = useState<Payment[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false); //state to track modal open state
-  const [selectedInvoice, setIsSelectedInvoice] = useState<Payment | null>(
-    null
-  ); //invoice data obj: this object contains partial data thats y only using the form id from this
+  const [selectedInvoice, setSelectedInvoice] = useState<Payment | null>(null); //invoice data obj: this object contains partial data thats y only using the form id from this
   const [formData, setFormData] = useState<InvoiceObj | null>(null); // contains all the data related to invoice
+  const [openDeleteModal, setOpenDeleteModal] = useState(false); //state to track the status of delete modal (is it open or closed)
+  const [selectedDelInvoiceId, setSelectedDelInvoiceId] = useState<
+    null | string
+  >(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function getData() {
     try {
+      setIsLoading(true);
       const user = await getUser();
       const id = user?.id;
       const dta = await getInvoiceRows(id);
@@ -55,6 +60,8 @@ export function DataTable() {
     } catch (error) {
       console.log("error fetching the data", error);
       setData([]);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -76,9 +83,21 @@ export function DataTable() {
   // console.log(data);
 
   const handleEditClick = (invoice: Payment) => {
-    setIsSelectedInvoice(invoice);
+    setSelectedInvoice(invoice);
     setFormData(null);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteClick = (id: string) => {
+    setOpenDeleteModal(true);
+    setSelectedDelInvoiceId(id);
+    console.log(selectedDelInvoiceId);
+    console.log("triggered");
+  };
+
+  const handleDeleteSuccess = () => {
+    getData(); // Refresh data after successful delete
+    setOpenDeleteModal(false);
   };
 
   // const handleClose = () => {
@@ -89,9 +108,14 @@ export function DataTable() {
   // const data = sampleData;
 
   //tanstack api for table
+  const columns = createColumns({
+    onEditClick: handleEditClick,
+    onDelClick: handleDeleteClick,
+  });
+
   const table = useReactTable({
     data,
-    columns: createColumns({ onEditClick: handleEditClick }), //column defination
+    columns, //column defination
     onSortingChange: setSorting,
     onPaginationChange: setPagination, // Add pagination handler
     onColumnFiltersChange: setColumnFilters,
@@ -107,103 +131,129 @@ export function DataTable() {
     },
   });
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-50">
+        <Loader2 className="h-6 w-6 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
-      <div className="flex gap-7  items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="flex-grow"
-        />
-        <Button>
-          <Link href="invoices/create-invoice">Create Invoice</Link>
-        </Button>
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
+      {isLoading ? (
+        <div className="flex justify-center items-center py-50">
+          <Loader2 className="h-6 w-6 animate-spin" />
+        </div>
+      ) : (
+        <>
+          <div className="flex gap-7  items-center py-4">
+            <Input
+              placeholder="Filter emails..."
+              value={
+                (table.getColumn("email")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("email")?.setFilterValue(event.target.value)
+              }
+              className="flex-grow"
+            />
+            <Button>
+              <Link href="invoices/create-invoice">Create Invoice</Link>
+            </Button>
+          </div>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
                           )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={createColumns?.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={createColumns?.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-between py-4">
-        <div className="text-sm text-muted-foreground">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
-        </div>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
-      <div>
-        <EditInvoiceModal
-          open={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          invoice={formData}
-          refreshData={getData}
-        />
-      </div>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex items-center justify-between py-4">
+            <div className="text-sm text-muted-foreground">
+              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getPageCount()}
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+          <div>
+            <EditInvoiceModal
+              open={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              invoice={formData}
+              refreshData={getData}
+            />
+          </div>
+          <div>
+            <DeleteConfirmationModal
+              open={openDeleteModal}
+              onClose={() => setOpenDeleteModal(false)}
+              id={selectedDelInvoiceId}
+              onDeleteSuccess={handleDeleteSuccess}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

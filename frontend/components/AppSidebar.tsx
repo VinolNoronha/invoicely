@@ -118,7 +118,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
+                <SidebarMenuButton suppressHydrationWarning>
                   <div className="flex flex-row w-full gap-1.5">
                     <div className="relative h-8 w-10 rounded-lg overflow-hidden">
                       {user?.user_metadata?.avatar_url ? (

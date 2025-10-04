@@ -274,3 +274,29 @@ export async function getMissingIrnDataServer(userId: string | undefined) {
 
   return dta;
 }
+
+export async function deleteInvoice(invoiceNum: string | null) {
+  "use server";
+  const supabase = await createClientServer();
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    throw new Error("User not authenticated");
+  }
+
+  const { error } = await supabase
+    .from("Invoices")
+    .delete()
+    .eq("invoice_no", invoiceNum);
+
+  if (error) {
+    console.log("error deleting the invoice");
+    throw new Error("Failed to delete the invoice");
+  }
+
+  return { success: true };
+}

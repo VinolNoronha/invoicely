@@ -319,3 +319,31 @@ export async function updateRow(
 
   return data;
 }
+
+// export async function deleteInvoice(invoiceNum: string) {
+//   const {
+//     data: { user },
+//     error: userError,
+//   } = await supabase.auth.getUser();
+
+//   // const router = useRouter();
+
+//   if (userError || !user) {
+//     throw new Error("User not authenticated");
+//   }
+
+//   const { error } = await supabase
+//     .from("Invoices")
+//     .delete()
+//     .eq("invoice_no", invoiceNum);
+
+//   if (error) {
+//     console.log("error deleting the invoice");
+//     throw new Error("Failed to delete the invoice");
+//   }
+
+//   // Instead of redirect
+//   // router.push(`/dashboard/${user.id}/invoices`);
+//   // // And refresh data
+//   // router.refresh();
+// }

@@ -14,11 +14,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Payment } from "./types";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export function createColumns({
   onEditClick,
+  onDelClick,
 }: {
   onEditClick: (invoice: Payment) => void;
+  onDelClick: (id: string) => void;
 }): ColumnDef<Payment>[] {
   return [
     {
@@ -124,7 +127,9 @@ export function createColumns({
               <DropdownMenuItem onClick={() => onEditClick(payment)}>
                 Edit Row
               </DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDelClick(payment.id)}>
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
