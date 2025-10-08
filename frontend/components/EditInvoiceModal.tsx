@@ -74,9 +74,9 @@ export default function EditInvoiceModal({
         <DialogHeader>
           <DialogTitle>Edit Invoice</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col  gap-5 mt-4">
+        <div className="flex flex-col gap-4 sm:gap-5 mt-4">
           {/* Name + Email */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-2 grid-cols-1 gap-3 sm:gap-6">
             <div className="grid gap-3">
               <Input
                 value={formData?.client_name || ""}
@@ -94,7 +94,7 @@ export default function EditInvoiceModal({
           </div>
 
           {/* Amount, Tax, GSTIN, Invoice number */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-3 grid-cols-2 gap-3 sm:gap-4">
             <div className="grid gap-3">
               <Input
                 value={formData?.total_amount || ""}
@@ -116,6 +116,7 @@ export default function EditInvoiceModal({
                 value={formData?.GSTIN || ""}
                 onChange={(e) => handleChange("GSTIN", e.target.value)}
                 placeholder="GSTIN"
+                className="min-w-[280px] sm:min-w-0"
               />
             </div>
           </div>
@@ -223,7 +224,7 @@ export default function EditInvoiceModal({
                   /> */}
                   <span className="h-4 w-4 rounded-full border border-gray-400 peer-checked:border-blue-600 peer-checked:bg-blue-600"></span>
                   <span className="ml-2 h-fit w-fit px-2 py-1 rounded-2xl text-xs bg-neutral-300 text-neutral-600">
-                    Accept terms
+                    Pending
                   </span>
                 </label>
                 <Label className=" text-stone-500">Status</Label>
@@ -279,7 +280,7 @@ export default function EditInvoiceModal({
                     <span className="hidden w-2 h-2 rounded-full bg-white peer-checked:block"></span>
                   </span>
                   <span className="ml-2 h-fit w-fit px-2 py-1 rounded-2xl text-xs bg-neutral-300 text-neutral-600">
-                    Accept terms
+                    Pending
                   </span>
                 </label>
                 <Label className=" text-stone-500">IRN</Label>
