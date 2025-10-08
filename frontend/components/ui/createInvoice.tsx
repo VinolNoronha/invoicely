@@ -26,9 +26,9 @@ export default function CreateInvoice() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="grid gap-6">
+          <CardContent className="gap-8 grid sm:gap-6">
             {/* Name + Email */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="customer-name">Name</Label>
                 <Input
@@ -48,7 +48,7 @@ export default function CreateInvoice() {
             </div>
 
             {/* Amount, Tax, GSTIN, Invoice number */}
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="customer-amount">Amount</Label>
                 <Input
@@ -84,7 +84,7 @@ export default function CreateInvoice() {
             </div>
 
             {/* GST fields */}
-            <div className="grid grid-cols-4 gap-6 ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="cust-cgst">CGST</Label>
                 <Input
@@ -120,7 +120,7 @@ export default function CreateInvoice() {
             </div>
 
             {/* Date + Status + IRN + PFP */}
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Date */}
               <div className="grid gap-3">
                 <Label htmlFor="invoice-date">Dated</Label>
@@ -130,9 +130,9 @@ export default function CreateInvoice() {
               {/* Status (radio group) */}
               <div className="grid gap-3">
                 <Label>Set the invoice status</Label>
-                <div className="flex gap-5 border border-neutral-200 py-2 rounded-md">
+                <div className="flex gap-3 sm:gap-5 border border-neutral-200 py-2 rounded-md px-2 sm:px-0">
                   <label
-                    className="inline-flex items-center ml-5 cursor-pointer"
+                    className="inline-flex items-center sm:ml-5 cursor-pointer"
                     htmlFor="status-success"
                   >
                     <input
@@ -161,7 +161,7 @@ export default function CreateInvoice() {
                     />
                     <span className="h-4 w-4 rounded-full border border-gray-400 peer-checked:border-blue-600 peer-checked:bg-blue-600"></span>
                     <span className="ml-2 h-fit w-fit px-2 py-1 rounded-2xl text-xs bg-neutral-300 text-neutral-600">
-                      Accept terms
+                      Pending
                     </span>
                   </label>
                 </div>
@@ -170,9 +170,9 @@ export default function CreateInvoice() {
               {/* IRN (radio group) */}
               <div className="grid gap-3">
                 <Label>IRN</Label>
-                <div className="flex gap-5 border border-neutral-200 py-2 rounded-md">
+                <div className="flex gap-3 sm:gap-5 border border-neutral-200 py-2 rounded-md px-2 sm:px-0">
                   <label
-                    className="inline-flex items-center ml-5 cursor-pointer"
+                    className="inline-flex items-center sm:ml-5 cursor-pointer"
                     htmlFor="irn-success"
                   >
                     <input
@@ -205,7 +205,7 @@ export default function CreateInvoice() {
                       <span className="hidden w-2 h-2 rounded-full bg-white peer-checked:block"></span>
                     </span>
                     <span className="ml-2 h-fit w-fit px-2 py-1 rounded-2xl text-xs bg-neutral-300 text-neutral-600">
-                      Accept terms
+                      Pending
                     </span>
                   </label>
                 </div>

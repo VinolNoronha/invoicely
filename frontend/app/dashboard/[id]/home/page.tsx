@@ -7,7 +7,7 @@ import React, { Suspense } from "react";
 
 export default function page() {
   return (
-    <section className="flex flex-col gap-7 w-full md:w-30/31">
+    <section className="flex w-full h-full flex-col gap-7 md:w-30/31">
       {/* HomeStats */}
       <Suspense fallback={<SkeletonHomeStats />}>
         <HomeStats />

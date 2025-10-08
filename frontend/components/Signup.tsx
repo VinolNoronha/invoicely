@@ -16,7 +16,7 @@ import Image from "next/image";
 
 export default function CardDemo() {
   return (
-    <Card className="w-full max-w-sm border-gray-200">
+    <Card className="w-full max-w-xs sm:max-w-sm border-gray-200">
       <CardHeader>
         <CardTitle>Welcome to Invoicely</CardTitle>
         <CardDescription>Enter your email below to sign up</CardDescription>

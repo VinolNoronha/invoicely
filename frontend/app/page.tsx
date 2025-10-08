@@ -32,7 +32,7 @@ export default function Home() {
             Invoicely
           </h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2  sm:mr-5">
           <Link href="auth/signup">
             <button className="text-black-900 px-3 py-1 rounded-md font-extrabold text-sm sm:text-base">
               Sign up
@@ -70,9 +70,9 @@ export default function Home() {
             </div>
           </section>
           <section className=" h-full w-full bg-yellow-30 flex flex-col sm:flex-row gap-6 sm:gap-20 justify-center items-center px-4 py-10 sm:py-0">
-            <div className="h-60 w-full sm:h-80 sm:w-70 bg-gray-100 rounded-md"></div>
-            <div className="h-60 w-full sm:h-80 sm:w-70 bg-gray-100 rounded-md"></div>
-            <div className="h-60 w-full sm:h-80 sm:w-70 bg-gray-100 rounded-md"></div>
+            <div className="h-60 w-full sm:h-70 sm:w-75 bg-gray-100 rounded-md"></div>
+            <div className="h-60 w-full sm:h-70 sm:w-75 bg-gray-100 rounded-md"></div>
+            <div className="h-60 w-full sm:h-70 sm:w-75 bg-gray-100 rounded-md"></div>
           </section>
         </section>
       </main>

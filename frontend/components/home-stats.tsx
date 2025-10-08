@@ -82,12 +82,12 @@ export default async function HomeStats() {
   console.log(totalCustCount);
 
   return (
-    <section className="flex flex-wrap justify-around gap-4 w-full">
+    <section className="grid grid-cols-1 pr-3 sm:flex flex-wrap justify-around gap-4 w-full px-2">
       {data.map((ele) => (
         <div
           key={ele.title}
           className="flex flex-col items-center gap-3 bg-gray-50 rounded-md p-4
-                 w-full sm:w-1/2 md:w-1/4 lg:w-1/5 box-border"
+                 w-full sm:w-1/2 md:w-1/4 lg:w-1/5 box-border mx-1"
         >
           {/* Icon + title */}
           <div className="flex gap-2 items-center w-full">

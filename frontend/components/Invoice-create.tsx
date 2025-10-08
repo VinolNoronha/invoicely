@@ -17,7 +17,7 @@ import CreateInvoice from "./ui/createInvoice";
 
 export default function InvoiceCreate() {
   return (
-    <div className="flex w-full mt-5 mx-7 flex-col gap-6  h-9/11">
+    <div className="flex w-30/31 mt-5 mx-3  sm:mx-7 sm:w-full flex-col gap-10  sm:h-9/11">
       <Tabs defaultValue="manual">
         <TabsList>
           <TabsTrigger value="manual">Create Manually</TabsTrigger>
