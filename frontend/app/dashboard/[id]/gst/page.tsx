@@ -15,16 +15,16 @@ import SkeletonMissingIrn from "@/components/skeleton/skeletonMissingIrn";
 
 export default function page() {
   return (
-    <section className="h-100% bg-yellow-30 flex flex-col gap-4 w-30/31 ">
-      <section className="w-full h-1/4 flex items-center justify-around ">
+    <section className="sm:h-100% mt-175 sm:mt-0  flex flex-col gap-4 w-30/31 ">
+      <section className="w-full bg-yellow-40 sm:h-1/4 grid grid-cols-1 place-items-center sm:flex sm:items-center sm:justify-around ">
         <Suspense fallback={<SkeletonGstStats />}>
           <GstStats />
         </Suspense>
       </section>
-      <section className="w-full h-[45%] my-4 flex justify-center items-center bg-amber-5">
+      <section className="w-full h-[45%] my-4 flex justify-center items-center bg-amber-">
         <TotalTaxChart />
       </section>
-      <section className="bg-amber-70 flex h-[95%] w-full">
+      <section className="bg-amber-70 gap-5 sm:gap-0 flex-col items-center  sm:flex-row flex h-[95%] w-full">
         <Suspense fallback={<SkeletonMissingIrn />}>
           <Irn />
         </Suspense>

@@ -76,18 +76,18 @@ export default function TotalTaxChart() {
   });
 
   return (
-    <Card className="w-[95%]">
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
-        <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <div className="bg-amber-60 px-10">
-            <p className="text-sm font-medium text-black hover:underline hover:decoration-2 hover:decoration-blue-600">
+    <Card className="w-[95%] mx-auto">
+      <CardHeader className="flex flex-col sm:flex-row items-center gap-2 space-y-0 border-b py-4 sm:py-2">
+        <div className="grid flex-1 gap-1 text-center sm:text-left w-full">
+          <div className="bg-amber-60 px-4 sm:px-10">
+            <p className="sm:text-sm text-xs font-medium text-black hover:underline hover:decoration-2 hover:decoration-blue-600">
               Daily Total Revenue v/s GST Collection
             </p>
           </div>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger
-            className="w-[160px] rounded-lg sm:ml-auto"
+            className="w-[60%] sm:w-[160px] rounded-lg sm:ml-auto"
             aria-label="Select a value"
           >
             <SelectValue placeholder="Last 3 months" />

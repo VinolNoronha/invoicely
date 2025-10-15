@@ -30,10 +30,12 @@ export default async function Irn() {
   // }, []);
 
   return (
-    <div className="h-[29vh] w-[45%] ml-7 flex flex-col overflow-hidden bg-white rounded-lg border border-gray-200">
+    <div className="h-[29vh] w-[95%] sm:w-[45%] sm:ml-7 flex flex-col overflow-hidden bg-white rounded-lg border border-gray-200">
       {/* Header */}
       <div className="w-full border-b border-gray-200 px-4 py-2 bg-gray-50">
-        <p className="text-sm font-semibold text-gray-800">Missing IRN</p>
+        <p className="sm:text-sm text-xs font-semibold text-gray-800">
+          Missing IRN
+        </p>
       </div>
 
       {/* Scrollable list */}

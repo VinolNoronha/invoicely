@@ -87,11 +87,11 @@ export default async function GstStats() {
   // }, []);
 
   return (
-    <section className=" flex items-center justify-around h-full w-full">
+    <section className="grid gap-3 sm:gap-0 grid-cols-1 sm:flex sm:items-center sm:justify-around sm:h-full sm:w-full">
       {data.map((ele) => {
         return (
           <div
-            className="w-1/5 h-30/31 flex flex-col items-center gap-3 bg-gray-50 rounded-md p-4"
+            className=" sm:w-1/5 sm:h-30/31 w-80 flex flex-col items-center gap-3 bg-gray-50 rounded-md p-4"
             key={ele.title}
           >
             <div className="flex gap-2 items-center w-full">
