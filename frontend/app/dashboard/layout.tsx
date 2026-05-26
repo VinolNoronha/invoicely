@@ -20,16 +20,14 @@ const roboto = Roboto({
 
 export default async function Layout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ id: string }>;
 }) {
   //using cookies so tht u persist the open/close state of the sidebar after subsequent rerenders
   const cookieStore = await cookies();
   const supabase = await createClientServer();
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
-  const { id } = await params;
+  //const { id } = await params;
 
   //to get the current users details
   const {
