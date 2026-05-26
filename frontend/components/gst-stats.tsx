@@ -5,6 +5,7 @@ import {
   getUserServer,
   totalInvoicesCountServer,
 } from "@/lib/actions";
+import { DateRange, getDateRange } from "@/lib/utils";
 
 import {
   BadgeIndianRupee,
@@ -17,29 +18,34 @@ import {
 } from "lucide-react";
 import React from "react";
 
-export default async function GstStats() {
+export default async function GstStats({
+  range = "30d",
+}: {
+  range?: DateRange;
+}) {
   // const [totalGstCollection, setTotalGstCollection] = useState<null | number>();
   // const [totalTaxableAmount, setTotalTaxableAmount] = useState<null | number>();
   // const [grossCollection, setGrossCollection] = useState<null | number>();
   // const [count, setCount] = useState<number | null>(null);
   const user = await getUserServer();
   const id = user?.id;
+  const { from, to } = getDateRange(range);
 
   const [totalGstCollection, totalTaxableAmount, grossCollection, count] =
     await Promise.all([
-      getTotalGstCollectionServer(id),
-      getTotalTaxableAmountServer(id),
-      getGrossCollectionServer(id),
-      totalInvoicesCountServer(id),
+      getTotalGstCollectionServer(id, from, to),
+      getTotalTaxableAmountServer(id, from, to),
+      getGrossCollectionServer(id, from, to),
+      totalInvoicesCountServer(id, from, to),
     ]);
   const formattedTotalGstColl = new Intl.NumberFormat("en-IN").format(
-    Number(totalGstCollection?.toFixed(0)) ?? 0
+    Number(totalGstCollection?.toFixed(0)) ?? 0,
   );
   const formattedtotalTaxableAmt = new Intl.NumberFormat("en-IN").format(
-    Number(totalTaxableAmount?.toFixed(0)) ?? 0
+    Number(totalTaxableAmount?.toFixed(0)) ?? 0,
   );
   const formattedGrossCollection = new Intl.NumberFormat("en-IN").format(
-    Number(grossCollection?.toFixed(0)) ?? 0
+    Number(grossCollection?.toFixed(0)) ?? 0,
   );
 
   const data = [

@@ -68,7 +68,10 @@ export default function TotalChartRev() {
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => {
+            const [month, year] = value.split(" ");
+            return `${month.slice(0, 3)} ${year.slice(2)}`;
+          }}
         />
         <ChartTooltip content={<ChartTooltipContent />} />
         <ChartLegend content={<ChartLegendContent />} />

@@ -16,7 +16,7 @@ export default function UserList({
   ind: number;
 }) {
   const formattedTotalAmt = new Intl.NumberFormat("en-IN").format(
-    Number(userData.total_amount?.toFixed(0)) ?? 0
+    Number(userData.total_amount?.toFixed(0)) ?? 0,
   );
   return (
     <div

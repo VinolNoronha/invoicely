@@ -44,7 +44,9 @@ export async function totalCustomerCount(userId: string | undefined) {
   if (error) throw error;
 
   const unique = new Set(
-    (data ?? []).map((r) => r.client_name?.trim().toLowerCase()).filter(Boolean)
+    (data ?? [])
+      .map((r) => r.client_name?.trim().toLowerCase())
+      .filter(Boolean),
   );
 
   return unique.size || 0;
@@ -92,10 +94,16 @@ export async function totalRev(userId: string | undefined) {
 }
 
 export async function getMonthlySales(userId: string | undefined) {
+  const from = new Date();
+  from.setMonth(from.getMonth() - 12);
+  from.setDate(1); // start from 1st of that month
+  const fromStr = from.toISOString().split("T")[0];
+
   let { data: monthlySales, error } = await supabase
     .from("Invoices")
     .select("total_amount, dated")
-    .eq("id", userId);
+    .eq("id", userId)
+    .gte("dated", fromStr);
 
   if (error) {
     throw error;
@@ -307,7 +315,7 @@ export async function getInvoiceDetails(invoice_num: string) {
 
 export async function updateRow(
   updatedData: InvoiceObj | null,
-  invoice_num: string | undefined
+  invoice_num: string | undefined,
 ) {
   const { data, error } = await supabase
     .from("Invoices")
@@ -347,3 +355,41 @@ export async function updateRow(
 //   // // And refresh data
 //   // router.refresh();
 // }
+
+export type DateRange = "30d" | "3m" | "6m" | "1y" | "fy";
+
+export const getDateRange = (range: DateRange) => {
+  const now = new Date();
+  const from = new Date();
+
+  switch (range) {
+    case "30d":
+      from.setDate(now.getDate() - 30);
+      break;
+    case "3m":
+      from.setMonth(now.getMonth() - 3);
+      break;
+    case "6m":
+      from.setMonth(now.getMonth() - 6);
+      break;
+    case "1y":
+      from.setFullYear(now.getFullYear() - 1);
+      break;
+    case "fy": {
+      const currentMonth = now.getMonth();
+      if (currentMonth >= 3) {
+        from.setFullYear(now.getFullYear(), 3, 1);
+      } else {
+        from.setFullYear(now.getFullYear() - 1, 3, 1);
+      }
+      break;
+    }
+    default:
+      from.setDate(now.getDate() - 30);
+  }
+
+  return {
+    from: from.toISOString().split("T")[0], // "2026-02-26"
+    to: now.toISOString().split("T")[0], // "2026-05-26"
+  };
+};

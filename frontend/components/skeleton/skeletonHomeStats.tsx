@@ -2,16 +2,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const SkeletonCard: React.FC = () => {
   return (
-    <div className="w-1/5 h-30/31 flex flex-col gap-3 bg-gray-50 rounded-md p-4">
-      {/* Header */}
+    <div className="flex flex-col items-center gap-3 bg-gray-50 rounded-md p-4 w-full sm:w-1/2 md:w-1/4 lg:w-1/5 box-border mx-1">
+      {/* Icon + title */}
       <div className="flex gap-2 items-center w-full">
-        <Skeleton className="w-6 h-6 rounded-full" />
-        <Skeleton className="w-20 h-4 rounded" />
+        <Skeleton className="w-6 h-6 rounded-full shrink-0" />
+        <Skeleton className="w-24 h-4 rounded" />
       </div>
 
-      {/* Content */}
-      <div className="bg-white h-full w-full p-4 rounded-sm flex items-center justify-center">
-        <Skeleton className="w-16 h-8 rounded" />
+      {/* Number */}
+      <div className="bg-white w-full p-4 rounded-sm flex items-center justify-center min-h-[60px]">
+        <Skeleton className="w-20 h-8 rounded" />
       </div>
     </div>
   );
@@ -19,7 +19,7 @@ const SkeletonCard: React.FC = () => {
 
 const SkeletonHomeStats: React.FC = () => {
   return (
-    <section className="flex items-center justify-around h-1/4 w-full">
+    <section className="grid grid-cols-1 pr-3 sm:flex flex-wrap justify-around gap-4 w-full px-2">
       {Array.from({ length: 4 }).map((_, index) => (
         <SkeletonCard key={index} />
       ))}

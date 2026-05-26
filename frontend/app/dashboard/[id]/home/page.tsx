@@ -4,13 +4,25 @@ import SkeletonTopCustomers from "@/components/skeleton/skeletonTopCustHome";
 import TopCustomers from "@/components/top-customers";
 import TotalRevChart from "@/components/TotalRevChart";
 import React, { Suspense } from "react";
+import RangeSelector from "@/components/ui/rangeSelector";
+import { DateRange } from "@/lib/utils";
 
-export default function page() {
+export default async function page({
+  searchParams,
+}: {
+  searchParams: Promise<{ range?: string }>;
+}) {
+  const { range: rangeParam } = await searchParams;
+  const range = (rangeParam ?? "30d") as DateRange;
+
   return (
     <section className="flex w-full h-full flex-col gap-7 md:w-30/31">
+      <section className="w-full flex items-center px-2 py-3">
+        <RangeSelector />
+      </section>
       {/* HomeStats */}
-      <Suspense fallback={<SkeletonHomeStats />}>
-        <HomeStats />
+      <Suspense fallback={<SkeletonHomeStats />} key={range}>
+        <HomeStats range={range} />
       </Suspense>
 
       {/* Charts & Top Customers */}
@@ -19,7 +31,7 @@ export default function page() {
         <div className="bg-gray-50 gap-4 rounded-sm flex flex-col w-full md:w-1/2 p-3">
           <div className="bg-amber-60 px-10 py-2">
             <p className="text-sm font-medium text-black hover:underline hover:decoration-2 hover:decoration-blue-600">
-              Monthly Revenue
+              Monthly Revenue (Last 12 months)
             </p>
           </div>
           <TotalRevChart />

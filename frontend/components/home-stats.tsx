@@ -6,11 +6,16 @@ import {
   totalPendingRevServer,
   totalRevServer,
 } from "@/lib/actions";
+import { DateRange, getDateRange } from "@/lib/utils";
 import { Clock, IndianRupee, Layers2Icon, Users } from "lucide-react";
 import React from "react";
 //{ ReactElement, useEffect, useState }
 
-export default async function HomeStats() {
+export default async function HomeStats({
+  range = "30d",
+}: {
+  range?: DateRange;
+}) {
   // const [count, setCount] = useState<number | null>(null);
   // const [totalCustCount, setTotalCustomerCount] = useState<number | null>(null);
   // const [totalPendingAmount, setTotalPendingAmount] = useState<number | null>(
@@ -20,19 +25,20 @@ export default async function HomeStats() {
 
   const user = await getUserServer();
   const id = user?.id;
+  const { from, to } = getDateRange(range);
 
   const [count, totalCustCount, totalPendingAmount, totalAmount] =
     await Promise.all([
-      totalInvoicesCountServer(id),
-      totalCustomerCountServer(id),
-      totalPendingRevServer(id),
-      totalRevServer(id),
+      totalInvoicesCountServer(id, from, to),
+      totalCustomerCountServer(id, from, to),
+      totalPendingRevServer(id, from, to),
+      totalRevServer(id, from, to),
     ]);
   const formattedPendRev = new Intl.NumberFormat("en-IN").format(
-    Number(totalPendingAmount?.toFixed(0)) ?? 0
+    Number(totalPendingAmount?.toFixed(0)) ?? 0,
   );
   const formattedTotalRev = new Intl.NumberFormat("en-IN").format(
-    Number(totalAmount?.toFixed(0)) ?? 0
+    Number(totalAmount?.toFixed(0)) ?? 0,
   );
 
   const data = [

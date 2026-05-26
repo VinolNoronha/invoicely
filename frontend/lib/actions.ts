@@ -42,7 +42,7 @@ export async function invoiceData(formData: FormData) {
     email: String(formData.get("email")),
     total_amount: parseFloat(String(formData.get("total_amount") || 0)),
     total_taxable_amt: parseFloat(
-      String(formData.get("total_taxable_amount") || 0)
+      String(formData.get("total_taxable_amount") || 0),
     ),
     GSTIN: String(formData.get("GSTIN")),
     invoice_no: String(formData.get("invoice_no")),
@@ -69,61 +69,96 @@ export async function invoiceData(formData: FormData) {
 }
 
 //homepage homestats server functions
-export async function totalInvoicesCountServer(userId: string | undefined) {
+export async function totalInvoicesCountServer(
+  userId: string | undefined,
+  from?: string,
+  to?: string,
+) {
   "use server";
   const supabase = await createClientServer();
-  const { count, error } = await supabase
+  let query = supabase
     .from("Invoices")
-    .select("*", { count: "exact", head: true }) // only count
+    .select("*", { count: "exact", head: true })
     .eq("id", userId);
+
+  if (from) query = query.gte("dated", from);
+  if (to) query = query.lte("dated", to);
+  const { count, error } = await query;
 
   if (error) throw error;
   return count;
 }
 
-export async function totalCustomerCountServer(userId: string | undefined) {
+export async function totalCustomerCountServer(
+  userId: string | undefined,
+  from?: string,
+  to?: string,
+) {
   "use server";
   const supabase = await createClientServer();
-  const { data, error } = await supabase
+
+  let query = supabase
     .from("Invoices")
     .select("client_name")
     .eq("id", userId)
     .not("client_name", "is", null);
 
+  if (from) query = query.gte("dated", from);
+  if (to) query = query.lte("dated", to);
+
+  const { data, error } = await query;
+
   if (error) throw error;
 
   const unique = new Set(
-    (data ?? []).map((r) => r.client_name?.trim().toLowerCase()).filter(Boolean)
+    (data ?? [])
+      .map((r) => r.client_name?.trim().toLowerCase())
+      .filter(Boolean),
   );
 
   return unique.size || 0;
 }
 
-export async function totalPendingRevServer(userId: string | undefined) {
+export async function totalPendingRevServer(
+  userId: string | undefined,
+  from?: string,
+  to?: string,
+) {
   "use server";
   const supabase = await createClientServer();
-  const { data, error } = await supabase
+  let query = supabase
     .from("Invoices")
     .select("total_amount")
     .eq("id", userId)
     .eq("status", false);
 
+  if (from) query = query.gte("dated", from);
+  if (to) query = query.lte("dated", to);
+
+  const { data, error } = await query;
   if (error) throw error;
 
   const pending = data?.reduce(
     (acc, item) => acc + (item.total_amount || 0),
-    0
+    0,
   );
   return Number(pending?.toFixed(1)) || 0;
 }
 
-export async function totalRevServer(userId: string | undefined) {
+export async function totalRevServer(
+  userId: string | undefined,
+  from?: string,
+  to?: string,
+) {
   "use server";
   const supabase = await createClientServer();
-  const { data, error } = await supabase
-    .from("Invoices")
-    .select("total_amount")
-    .eq("id", userId);
+
+  let query = supabase.from("Invoices").select("total_amount").eq("id", userId);
+
+  if (from) query = query.gte("dated", from);
+  if (to) query = query.lte("dated", to);
+
+  const { data, error } = await query;
 
   if (error) throw error;
 
@@ -198,14 +233,23 @@ export async function getTopCustomersServer(userId: string | undefined) {
 }
 
 //gst stats starts
-export async function getTotalGstCollectionServer(userId: string | undefined) {
+export async function getTotalGstCollectionServer(
+  userId: string | undefined,
+  from?: string,
+  to?: string,
+) {
   "use server";
   const supabase = await createClientServer();
-  let { data: op_gst, error } = await supabase
+  let query = supabase
     .from("Invoices")
     .select("op_gst")
     .eq("id", userId)
     .not("client_name", "is", null);
+
+  if (from) query = query.gte("dated", from);
+  if (to) query = query.lte("dated", to);
+
+  const { data: op_gst, error } = await query;
 
   if (error) throw error;
 
@@ -216,14 +260,23 @@ export async function getTotalGstCollectionServer(userId: string | undefined) {
   return Number(totalGstColl?.toFixed(2));
 }
 
-export async function getTotalTaxableAmountServer(userId: string | undefined) {
+export async function getTotalTaxableAmountServer(
+  userId: string | undefined,
+  from?: string,
+  to?: string,
+) {
   "use server";
   const supabase = await createClientServer();
-  let { data: total_amt, error } = await supabase
+  let query = supabase
     .from("Invoices")
     .select("total_taxable_amt")
     .eq("id", userId)
     .not("client_name", "is", null);
+
+  if (from) query = query.gte("dated", from);
+  if (to) query = query.lte("dated", to);
+
+  const { data: total_amt, error } = await query;
 
   if (error) throw error;
 
@@ -234,14 +287,23 @@ export async function getTotalTaxableAmountServer(userId: string | undefined) {
   return Number(total_tax_amt?.toFixed(2));
 }
 
-export async function getGrossCollectionServer(userId: string | undefined) {
+export async function getGrossCollectionServer(
+  userId: string | undefined,
+  from?: string,
+  to?: string,
+) {
   "use server";
   const supabase = await createClientServer();
-  let { data: total_amt, error } = await supabase
+  let query = supabase
     .from("Invoices")
     .select("total_amount")
     .eq("id", userId)
     .not("client_name", "is", null);
+
+  if (from) query = query.gte("dated", from);
+  if (to) query = query.lte("dated", to);
+
+  const { data: total_amt, error } = await query;
 
   if (error) throw error;
 
