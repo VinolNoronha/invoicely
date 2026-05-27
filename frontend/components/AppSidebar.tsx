@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Calendar,
   ChevronUp,
@@ -24,7 +26,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 
 import { Fjalla_One } from "next/font/google";
