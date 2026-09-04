@@ -14,17 +14,17 @@ A full-stack invoice management application with an AI reconciliation engine tha
 
 > _Add screenshots here after taking them (see `screenshots/` folder)_
 
-| Landing                               | Login                             | Home                            |
-| ------------------------------------- | --------------------------------- | ------------------------------- |
-| ![Landing](./screenshots/landing.png) | ![Login](./screenshots/login.png) | ![Home](./screenshots/home.png) |
+| Landing                                | Login                              | Home                                       |
+| -------------------------------------- | ---------------------------------- | ------------------------------------------ |
+| ![Landing](./screenshots/landing.webp) | ![Login](./screenshots/login.webp) | ![Home](./screenshots/home-dashboard.webp) |
 
-| Invoices                                | Create Invoice                                      | Upload & Extract                                      |
-| --------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
-| ![Invoices](./screenshots/invoices.png) | ![Create Invoice](./screenshots/create-invoice.png) | ![Upload & Extract](./screenshots/upload-extract.png) |
+| Invoices                                      | Create Invoice                                       | Upload & Extract                                       |
+| --------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
+| ![Invoices](./screenshots/invoices-list.webp) | ![Create Invoice](./screenshots/upload-extract.webp) | ![Upload & Extract](./screenshots/upload-extract.webp) |
 
-| GST Dashboard                 | AI Reconciliation                                      | Reconciliation Results                                              |
-| ----------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------- |
-| ![GST](./screenshots/gst.png) | ![AI Reconciliation](./screenshots/reconciliation.png) | ![Reconciliation Results](./screenshots/reconciliation-results.png) |
+| GST Dashboard                            | AI Reconciliation                                          | Reconciliation Results                                               |
+| ---------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------- |
+| ![GST](./screenshots/gst-dashboard.webp) | ![AI Reconciliation](./screenshots/ai-reconciliation.webp) | ![Reconciliation Results](./screenshots/reconciliation-results.webp) |
 
 ---
 
@@ -169,10 +169,6 @@ Go to [http://localhost:3000](http://localhost:3000)
 Here is a updated, comprehensive README.md formatted to include the clean directory structure layout and tech breakdown you requested.
 
 Markdown
-
-# Invoicely
-
-Invoicely is an AI-powered invoice extraction, tax verification, and GST reconciliation platform. It features an automated processing engine that extracts tables, calculates tax breakdowns, and performs LLM-based reconciliation against invoices and ledgers.
 
 ---
 
