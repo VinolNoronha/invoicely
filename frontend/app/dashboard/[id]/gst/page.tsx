@@ -21,29 +21,32 @@ export default async function page({
   searchParams: Promise<{ range?: string }>;
 }) {
   const { range: rangeParam } = await searchParams;
+
   const range = (rangeParam ?? "30d") as DateRange;
 
   return (
-    <section className="sm:h-100% mt-175 sm:mt-0  flex flex-col gap-4 w-30/31 ">
-      <section className="w-full sm:h-1/4 grid grid-cols-1 place-items-center sm:flex sm:items-center sm:justify-around ">
-        <section className="w-full mr-10 sm:h-1/4">
-          <RangeSelector />
-        </section>
-      </section>
-      <section className="w-full  sm:h-1/4 grid grid-cols-1 place-items-center sm:flex sm:items-center sm:justify-around ">
+    <section className="w-30/31 flex flex-col gap-4  pb-4">
+      <div className="w-full flex justify-end">
+        <RangeSelector />
+      </div>
+
+      <section className="w-full flex justify-center sm:flex-row sm:items-start">
         <Suspense fallback={<SkeletonGstStats />} key={range}>
           <GstStats range={range} />
         </Suspense>
       </section>
-      <section className="w-full h-[45%] my-4 flex justify-center items-center bg-amber-">
+
+      <section className="w-full flex justify-center">
         <TotalTaxChart />
       </section>
-      <section className="bg-amber-70 gap-5 sm:gap-0 flex-col items-center  sm:flex-row flex h-[95%] w-full">
+
+      {/* <section className="w-full flex flex-col gap-6 sm:flex-row sm:items-start">
         <Suspense fallback={<SkeletonMissingIrn />}>
           <Irn />
         </Suspense>
+
         <InvDescrepencie />
-      </section>
+      </section> */}
     </section>
   );
 }

@@ -55,7 +55,7 @@ const data: descItem[] = [
 
 export default function InvDescrepencie() {
   return (
-    <div className="h-[29vh] w-[95%] sm:w-[45%] sm:ml-7 flex flex-col overflow-hidden bg-gray-50 rounded-md shadow-sm border">
+    <div className="h-[29vh] w-full sm:w-[calc(50%-0.75rem)] flex flex-col overflow-hidden bg-gray-50 rounded-md shadow-sm border">
       <div className="w-full border-b border-gray-200 px-4 py-2 bg-gray-50">
         <p className="sm:text-sm text-xs font-semibold text-gray-800">
           Invoice Descrepencies

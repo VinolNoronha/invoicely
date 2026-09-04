@@ -47,8 +47,8 @@ export default function CreateInvoice() {
               </div>
             </div>
 
-            {/* Amount, Tax, GSTIN, Invoice number */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Amount, Tax, Invoice number */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="customer-amount">Amount</Label>
                 <Input
@@ -66,20 +66,47 @@ export default function CreateInvoice() {
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="customer-gstin">GSTIN</Label>
-                <Input
-                  id="customer-gstin"
-                  name="GSTIN"
-                  placeholder="Enter the GSTIN number"
-                />
-              </div>
-              <div className="grid gap-3">
                 <Label htmlFor="customer-invoice">Invoice number</Label>
                 <Input
                   id="customer-invoice"
                   name="invoice_no"
                   placeholder="Enter the invoice number"
                 />
+              </div>
+            </div>
+
+            {/* GSTIN pair + invoice type */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid gap-3">
+                <Label htmlFor="supplier-gstin">Supplier GSTIN</Label>
+                <Input
+                  id="supplier-gstin"
+                  name="supplier_gstin"
+                  placeholder="Enter the supplier's GSTIN"
+                />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="buyer-gstin">Buyer GSTIN</Label>
+                <Input
+                  id="buyer-gstin"
+                  name="buyer_gstin"
+                  placeholder="Enter the buyer's GSTIN"
+                />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="invoice-type">Invoice Type</Label>
+                <select
+                  id="invoice-type"
+                  name="invoice_type"
+                  className="border border-input rounded-md h-9 px-3 text-sm bg-transparent"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select type
+                  </option>
+                  <option value="sales">Sales</option>
+                  <option value="purchase">Purchase</option>
+                </select>
               </div>
             </div>
 
@@ -110,11 +137,11 @@ export default function CreateInvoice() {
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="cust-op-gst">Output GST</Label>
+                <Label htmlFor="cust-op-gst">Total Tax</Label>
                 <Input
                   id="cust-op-gst"
-                  name="op_gst"
-                  placeholder="Enter the output GST"
+                  name="total_tax"
+                  placeholder="Enter the total tax amount"
                 />
               </div>
             </div>

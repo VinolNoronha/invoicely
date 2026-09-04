@@ -4,7 +4,7 @@ interface irnProps {
   ind: number;
   data: {
     invoice_num: string;
-    GST_IN: string;
+    GST_IN: string | null;
     dated: string;
   };
 }

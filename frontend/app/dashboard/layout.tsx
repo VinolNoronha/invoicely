@@ -39,17 +39,42 @@ export default async function Layout({
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar user={user} />
-      <main className="w-full">
-        <div className="h-15 flex items-center">
+
+      {/* Changed */}
+      <main className="w-full h-dvh flex flex-col overflow-hidden">
+        <div className="h-15 shrink-0 flex items-center">
           <Suspense fallback={<span className="ml-2">Loading</span>}>
             <DynamicRoute />
           </Suspense>
         </div>
-        <div className="bg-gray-30 flex justify-center items-center h-dvh w-full">
-          {children}
+
+        {/* Scroll container */}
+        <div className="flex-1 min-h-0 w-full overflow-y-auto">
+          {/* Content wrapper */}
+          <div className="bg-gray-30 w-full min-h-full flex justify-center">
+            {children}
+          </div>
         </div>
+
         <Toaster />
       </main>
     </SidebarProvider>
   );
 }
+
+//  return (
+//     <SidebarProvider defaultOpen={defaultOpen}>
+//       <AppSidebar user={user} />
+//       <main className="w-full">
+//         <div className="h-15 flex items-center">
+//           <Suspense fallback={<span className="ml-2">Loading</span>}>
+//             <DynamicRoute />
+//           </Suspense>
+//         </div>
+//         <div className="bg-gray-30 flex justify-center items-center h-dvh w-full">
+//           {children}
+//         </div>
+//         <Toaster />
+//       </main>
+//     </SidebarProvider>
+//   );

@@ -3,8 +3,10 @@
 import {
   Calendar,
   ChevronUp,
+  GitCompareArrows,
   Home,
   IndianRupee,
+  RefreshCcwDotIcon,
   StickyNote,
   User2,
 } from "lucide-react";
@@ -51,6 +53,11 @@ const items = [
     title: "GST",
     url: `gst`,
     icon: IndianRupee,
+  },
+  {
+    title: "AI Reconciliation",
+    url: "reconciliation",
+    icon: RefreshCcwDotIcon,
   },
 ];
 
