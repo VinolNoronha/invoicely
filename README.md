@@ -46,15 +46,16 @@ A full-stack invoice management application with an AI reconciliation engine tha
 
 ## Tech Stack
 
-| Layer            | Technology                                       |
-| ---------------- | ------------------------------------------------ |
-| Frontend         | Next.js 15 (App Router), TypeScript, TailwindCSS |
-| Backend          | FastAPI, Python 3.11 / 3.12                      |
-| Database         | Supabase (PostgreSQL)                            |
-| Auth             | Supabase Auth — Google OAuth only                |
-| OCR / Extraction | PyMuPDF (coordinate-based spatial parsing)       |
-| AI / LLM         | Gemini (reconciliation anomaly explanation)      |
-| Deployment       | Vercel (frontend), Render (backend)              |
+| Layer                     | Technology                                                                   |
+| :------------------------ | :--------------------------------------------------------------------------- |
+| **Frontend**              | Next.js 15 (App Router), React, TypeScript, TailwindCSS                      |
+| **Backend**               | FastAPI, Python 3.11 / 3.12, Uvicorn                                         |
+| **Database & Auth**       | Supabase (PostgreSQL), Supabase Auth (Google OAuth)                          |
+| **Storage**               | Supabase Storage (`invoice-pdfs` private bucket)                             |
+| **OCR & Parsing**         | PyMuPDF (coordinate-based spatial parsing & bounding box extraction), Regex  |
+| **Reconciliation Engine** | Python (FuzzyWuzzy / RapidFuzz string matching, Delta Tax calculation logic) |
+| **AI / LLM**              | Google Gemini API (Discrepancy Root-Cause Analysis)                          |
+| **Deployment**            | Vercel (Frontend), Render (Backend)                                          |
 
 ---
 
@@ -165,33 +166,44 @@ Go to [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Project Structure
+Here is a updated, comprehensive README.md formatted to include the clean directory structure layout and tech breakdown you requested.
 
-```
+Markdown
+
+# Invoicely
+
+Invoicely is an AI-powered invoice extraction, tax verification, and GST reconciliation platform. It features an automated processing engine that extracts tables, calculates tax breakdowns, and performs LLM-based reconciliation against invoices and ledgers.
+
+---
+
+## 📂 Project Structure
+
+```text
 invoicely/
-├── frontend/
+├── frontend/                     # Next.js App Router Frontend
 │   └── app/
-│       └── dashboard/[id]/
-│           ├── home/
-│           ├── invoices/
+│       └── dashboard/[id]/       # Dynamic Organization/User Dashboard
+│           ├── home/             # Revenue & Key Analytics Overview
+│           ├── invoices/         # Invoice Management & Table Views
 │           │   ├── create-invoice/
-│           │   └── _data-table/
-│           └── gst/
-├── backend/
+│           │   └── _data-table/  # Modular Data Table Components
+│           └── gst/              # GST Statistics & Reconciliation Views
+│
+├── backend/                      # FastAPI Python Service
 │   └── app/
-│       ├── api/
+│       ├── api/                  # REST API Endpoints (Invoices, Reconciliation)
 │       │   └── invoices.py
-│       ├── core/
+│       ├── core/                 # Core Connections (Supabase & External Clients)
 │       │   └── supabase.py
-│       ├── schemas/
+│       ├── schemas/              # Pydantic Schemas & Data Validation
 │       │   └── invoice.py
-│       └── services/
-│           ├── anchor_search/
-│           ├── pdfparser/
-│           ├── table_extractor/
-│           └── tax_extractor/
+│       └── services/             # Core Extraction & Processing Engines
+│           ├── anchor_search/    # Bounding-box & Field Anchor Search
+│           ├── pdfparser/        # PyMuPDF Parsing Logic
+│           ├── table_extractor/  # Line Item & Table Data Extraction
+│           └── tax_extractor/    # Tax Code & GST Extraction Logic
+│
 └── README.md
-```
 
 > Folder names above are based on what's confirmed so far — adjust to match your actual tree before committing.
 
@@ -201,3 +213,4 @@ invoicely/
 
 - Authentication is Google OAuth only (no email/password login)
 - Match rate figures are reported against synthetic test data
+```
