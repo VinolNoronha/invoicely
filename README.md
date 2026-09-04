@@ -12,8 +12,6 @@ A full-stack invoice management application with an AI reconciliation engine tha
 
 ## Screenshots
 
-> _Add screenshots here after taking them (see `screenshots/` folder)_
-
 | Landing                                | Login                              | Home                                       |
 | -------------------------------------- | ---------------------------------- | ------------------------------------------ |
 | ![Landing](./screenshots/landing.webp) | ![Login](./screenshots/login.webp) | ![Home](./screenshots/home-dashboard.webp) |
