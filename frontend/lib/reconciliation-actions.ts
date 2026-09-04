@@ -4,7 +4,11 @@ import { getUserServer } from "./actions";
 import { createClientServer } from "./supabase/server";
 import { revalidatePath } from "next/cache";
 
-const FASTAPI_URL = process.env.FASTAPI_BASE_URL || "http://127.0.0.1:8000";
+// ✅ New
+const FASTAPI_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.FASTAPI_BASE_URL ||
+  "https://invoicely-backend-yixi.onrender.com";
 
 export type GSTR2BRecordInput = {
   gstin: string;

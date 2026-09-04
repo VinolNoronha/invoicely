@@ -22,7 +22,9 @@ import { InvoiceObj } from "@/app/dashboard/[id]/invoices/_data-table/types";
 // Set this to wherever your FastAPI service is actually running.
 // Consider moving this to an env var (NEXT_PUBLIC_FASTAPI_URL) instead of
 // hardcoding once you deploy — different per environment.
-const FASTAPI_BASE_URL = "http://127.0.0.1:8000";
+const FASTAPI_BASE_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "https://invoicely-backend-yixi.onrender.com";
 
 // Shape returned by /extract now — the backend returns a flat "form"
 // object (matches the Invoices table / InvoiceObj almost exactly, meant
