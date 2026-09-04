@@ -2,8 +2,8 @@ import { Fjalla_One, Noto_Sans_Javanese } from "next/font/google";
 import Image from "next/image";
 import Logo from "@/public/invoicelylogo.png";
 import Ocrimage from "@/public/ocrfeature.png";
-import Chartsimage from "@/public/charts.png";
-import Dashboardimage from "@/public/dashboard.png";
+import gst2b_reconsi from "@/public/gst2b_reconsi.png";
+import cashflow from "@/public/cashflow.png";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
@@ -51,21 +51,21 @@ export default function Home() {
       <main>
         <section className="bg-yellow-30 w-full">
           <section className="flex flex-col h-auto py-10 sm:py-0 sm:h-90 items-center justify-center px-4 sm:px-0">
-            <div className="w-full sm:w-1/2 flex">
+            <div className="w-full sm:w-1/2 flex flex-col">
               <h4
                 className={`${noto_sans_javanese.className} text-2xl sm:text-5xl leading-[1.2] text-left px-10`}
               >
-                Welcome to{" "}
+                Transform your billing with{" "}
                 <span className="text-blue-700 font-extrabold">Invoicely</span>{" "}
-                this is where your invoices are managed{" "}
+                — instant OCR & GSTR-2B matching{" "}
                 <span className="underline decoration-blue-600">
-                  effortlessly
+                  in seconds
                 </span>
               </h4>
             </div>
             <div className="w-full px-10 sm:w-1/2 flex mt-6">
               <Link href="auth/signin">
-                <button className="bg-black text-white px-5 py-2 sm:px-7 sm:py-3 rounded-md hover:bg-gray-800 transition flex items-center">
+                <button className="bg-black text-white px-5 py-2 sm:px-7 sm:py-3 rounded-md hover:bg-gray-800 transition flex items-center gap-2">
                   Get started{" "}
                   <ArrowRightIcon className="h-5 w-8 sm:h-6 sm:w-10" />
                 </button>
@@ -89,7 +89,7 @@ export default function Home() {
                   <text
                     className={`${noto_sans_javanese.className} text-xs px-4 text-center font-semibold text-blue-700`}
                   >
-                    AI-Powered OCR Invoice Extraction
+                    Smart Document Parsing
                   </text>
                 </div>
               </div>
@@ -100,7 +100,7 @@ export default function Home() {
                   <Image
                     className="object-cover"
                     alt="OCR feature"
-                    src={Chartsimage}
+                    src={gst2b_reconsi}
                     fill
                     sizes="(max-width: 640px) 100vw, 18.75rem"
                   />
@@ -110,7 +110,7 @@ export default function Home() {
                   <text
                     className={`${noto_sans_javanese.className} text-xs px-4 text-center font-semibold text-blue-700`}
                   >
-                    Real-Time Revenue and GST Insights
+                    Automated GSTR-2B Reconciliation
                   </text>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default function Home() {
                   <Image
                     className="object-cover"
                     alt="OCR feature"
-                    src={Dashboardimage}
+                    src={cashflow}
                     fill
                     sizes="(max-width: 640px) 100vw, 18.75rem"
                   />
@@ -131,7 +131,7 @@ export default function Home() {
                   <text
                     className={`${noto_sans_javanese.className} text-xs px-4 text-center font-semibold text-blue-700`}
                   >
-                    Smart Invoice Tracking
+                    Live Cashflow & Audit AI
                   </text>
                 </div>
               </div>
